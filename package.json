@@ -1,0 +1,11 @@
+{
+  "name": "jump-app",
+  "private": true,
+  "scripts": {
+    "test": "npm run test --prefix ./Jump-App",
+    "test:staging": "npm run test:staging --prefix ./Jump-App",
+    "test:ui": "npm run test:ui --prefix ./Jump-App",
+    "test:staging:smoke": "npm run test:staging:smoke --prefix ./Jump-App",
+    "test:staging:regression": "npm run test:staging:regression --prefix ./Jump-App"
+  }
+}
