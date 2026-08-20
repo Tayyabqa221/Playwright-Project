@@ -1,0 +1,1 @@
+{"type":"error.list","request_id":"003mt82tnon297kj6psg","errors":[{"code":"identity_verification_invalid_user_hash","message":"Invalid user_hash. Make sure you are correctly generating your user_hash for Identity Verification."}]}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automation for Jump App</title>
+  <style>
+    body { font-family: Calibri, "Segoe UI", Arial, sans-serif; line-height: 1.45; max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; color: #222; }
+    h1 { font-size: 1.6rem; border-bottom: 1px solid #ccc; padding-bottom: 0.35rem; }
+    h2 { font-size: 1.15rem; margin-top: 1.75rem; }
+    p { margin: 0.6rem 0; }
+    ul { margin: 0.4rem 0 0.6rem 1.25rem; }
+    li { margin: 0.25rem 0; }
+    .italic { font-style: italic; }
+    code { font-family: Consolas, monospace; font-size: 0.9em; background: #f4f4f4; padding: 0.05em 0.35em; }
+  </style>
+</head>
+<body>
+
+<h1>Automation for Jump App</h1>
+
+<h2>Introduction</h2>
+<p>The Jump App automation initiative focuses on automating regression and functional end-to-end testing for the Jump App web application to improve release reliability, reduce manual testing effort, and ensure consistent validation of critical user journeys across environments.</p>
+<p>The automation framework is built using Playwright with TypeScript and follows a Page Object Model (POM). It validates core product areas such as authentication, home, meetings, new meeting / notetaker-related flows, actions, and contacts through UI-based automation, with structured test data and reporting.</p>
+
+<h2>1. Epic Overview</h2>
+<p>Automate regression and functional end-to-end testing for Jump App to improve release reliability, reduce manual regression effort, and provide repeatable validation of key workflows before and after releases.</p>
+<p>The initiative delivers automated test suites aligned with Jump App modules so teams can run smoke and broader regression packs on demand or from CI/CD.</p>
+
+<h2>2. Objectives</h2>
+<ul>
+  <li>Ensure critical Jump App flows are automatically validated on each relevant build or scheduled run.</li>
+  <li>Detect UI and workflow defects earlier in the development lifecycle.</li>
+  <li>Reduce manual regression testing effort for recurring scenarios.</li>
+  <li>Support stable and faster releases through repeatable automated checks.</li>
+  <li>Provide consistent validation of meetings, contacts, actions, home, and login-related journeys.</li>
+  <li>Improve overall quality and reliability of customer-facing features.</li>
+</ul>
+
+<h2>3. Scope</h2>
+<p class="italic">In Scope: (end to end)</p>
+<ul>
+  <li>Login and authentication (including Google sign-in and 2FA/TOTP where configured).</li>
+  <li>Logout.</li>
+  <li>Home dashboard and navigation.</li>
+  <li>Meetings (e.g. list/calendar views, toggles, calendar settings, navigation, day range, tabs, filters, meeting actions such as remove / make private / type selection, as covered in specs).</li>
+  <li>New meeting flows covered by the <code>newMeeting</code> module (including dynamic data via Faker where used).</li>
+  <li>Actions module scenarios covered in automation.</li>
+  <li>Contacts module scenarios covered in automation.</li>
+  <li>Cross-cutting concerns: stable locators (<code>data-testid</code>, <code>aria-label</code>, text where appropriate), traces, video, and screenshots on failure (per Playwright configuration).</li>
+</ul>
+
+<p class="italic">Out of Scope:</p>
+<ul>
+  <li>Dedicated API-only test suite (API clients may be used as helpers; contract/API testing is not the primary layer).</li>
+  <li>Performance and load testing.</li>
+  <li>Security penetration testing.</li>
+  <li>Applications or modules outside Jump App.</li>
+  <li>Database-level validations unless explicitly added as a future enhancement.</li>
+  <li>Large-scale data volume or soak testing unless separately planned.</li>
+</ul>
+
+<h2>4. Automation Strategy</h2>
+<p>The automation approach aligns with the testing pyramid: heavy reliance on fast feedback from developers’ unit tests, with UI end-to-end tests as the primary packaged automation for Jump App.</p>
+<ul>
+  <li><strong>Test levels</strong></li>
+  <li>Unit tests – owned by development.</li>
+  <li>API tests – optional future layer; not the current primary focus.</li>
+  <li>UI end-to-end tests – primary automation layer (Playwright, Chromium project).</li>
+  <li>Regression suite – tagged and scripted scenarios (e.g. <code>@smoke</code>, <code>@regression</code> via <code>npm</code> scripts / <code>grep</code>) to validate critical workflows across releases.</li>
+</ul>
+<p><strong>Future:</strong> Integrate runs with CI/CD (e.g. pull request checks, nightly regression, pre-release validation) using the same npm / Playwright commands.</p>
+
+<h2>5. Tools and Technology Stack</h2>
+<p class="italic">UI automation</p>
+<ul>
+  <li>Playwright (<code>@playwright/test</code>)</li>
+  <li>TypeScript</li>
+</ul>
+<p><strong>Supporting libraries and utilities</strong></p>
+<ul>
+  <li><code>@faker-js/faker</code> – dynamic test data.</li>
+  <li><code>mailosaur</code> – email-driven flows where configured.</li>
+  <li><code>otplib</code> – TOTP/2FA where required.</li>
+  <li><code>dotenv</code> – environment configuration.</li>
+  <li><code>date-fns</code>, <code>lodash</code>, <code>uuid</code> – helpers.</li>
+  <li><code>axios</code>, <code>graphql-request</code> – optional API/helper usage.</li>
+  <li><code>xlsx</code>, <code>pdf-parse</code> – file/document handling where scenarios need them.</li>
+  <li><code>@axe-core/playwright</code> – accessibility checks where used.</li>
+</ul>
+<p><strong>Development tools</strong></p>
+<ul>
+  <li>Visual Studio Code (or equivalent IDE)</li>
+  <li>Git</li>
+  <li>Node.js (LTS recommended)</li>
+</ul>
+<p><strong>Reporting</strong></p>
+<ul>
+  <li>Playwright HTML report (<code>npx playwright show-report</code>)</li>
+  <li>Allure (<code>allure-playwright</code>, generate/open via npm scripts)</li>
+</ul>
+<p><strong>Code quality</strong></p>
+<ul>
+  <li>Prettier</li>
+  <li>Husky (git hooks via <code>prepare</code>)</li>
+  <li>TypeScript strict typing as project standard</li>
+</ul>
+
+<h2>6. Repository Structure</h2>
+<p>The repository follows a modular layout under <code>src/</code> (aligned with Jump App features):</p>
+<pre style="background:#f8f8f8;padding:0.75rem 1rem;font-size:0.85rem;overflow:auto;">
+src/
+├── config/              # Environment files (e.g. .env.staging — local, not committed)
+├── cookies/             # Storage state for authenticated sessions (e.g. jumpapp-google-auth.json)
+├── data/
+│   ├── login/
+│   └── modules/         # Per-feature test data (*.data.ts); optional NODE_ENV subfolders
+├── fixtures/            # Playwright fixtures (page objects injected into tests)
+├── interfaces/          # TypeScript interfaces (LocatorInfo, modules, login, mailosaur, etc.)
+├── page/
+│   ├── login/
+│   └── modules/         # Page objects (POM) per feature
+├── specs/
+│   ├── login/
+│   └── modules/         # Test specifications (*.spec.ts)
+└── utilities/           # env, actions, verifications, mailosaur, global setup/teardown, etc.
+</pre>
+<p><code>src/config/.env.&lt;environment&gt;</code> – update when base URL, credentials, Mailosaur, or toggles (e.g. <code>SKIP_GLOBAL_LOGIN</code>) change for a new environment or tenant.</p>
+<ul>
+  <li>Jump App base URL (<code>JUMPAPP_BASE_URL</code> or <code>URL</code>).</li>
+  <li>Test user credentials and 2FA secret where applicable.</li>
+  <li>Optional Mailosaur and teardown API settings per README.</li>
+</ul>
+<p class="italic">Guideline for branching / pull requests (Git):</p>
+<ul>
+  <li><code>git fetch --all</code></li>
+  <li><code>git branch -a</code></li>
+  <li><code>git add</code></li>
+  <li><code>git commit -m "&lt;message&gt;"</code></li>
+  <li><code>git push -u origin &lt;branch&gt;</code></li>
+</ul>
+
+<h2>7. Test Coverage Targets</h2>
+<p><strong>Coverage goals (indicative)</strong></p>
+<ul>
+  <li>Core Jump App workflows (login, meetings, new meeting, home) – target high coverage (e.g. 80% of prioritized scenarios).</li>
+  <li>UI critical paths across modules – strong coverage (e.g. 70% of prioritized UI paths).</li>
+</ul>
+<p><strong>Examples of automated areas (as implemented in the repo)</strong></p>
+<ul>
+  <li>Login and logout</li>
+  <li>Home</li>
+  <li>Meetings (view toggles, calendar settings, navigation, filters, list tabs, day range, actions on meetings)</li>
+  <li>New meeting</li>
+  <li>Actions</li>
+  <li>Contacts</li>
+</ul>
+
+<h2>8. CI/CD Integration</h2>
+<p>Automation is designed to run in CI/CD with triggers such as:</p>
+<ul>
+  <li>Pull request validation</li>
+  <li>Nightly regression runs</li>
+  <li>Pre-release validation</li>
+</ul>
+<p class="italic">Example commands:</p>
+<ul>
+  <li><code>npm run test:staging</code> – full run against staging env</li>
+  <li><code>npm run test:staging:smoke</code> – grep <code>@smoke</code></li>
+  <li><code>npm run test:staging:regression</code> – grep <code>@regression</code></li>
+  <li><code>npx playwright test &lt;path-to-spec&gt;</code></li>
+  <li><code>npx playwright test --project Chromium</code></li>
+</ul>
+
+<h2>9. Test Data Strategy</h2>
+<p>Test data is managed primarily through TypeScript data modules under <code>src/data/</code>, resolved by <code>getDataSet(filename, datasetName, testCase)</code> in <code>env.utils</code>, with optional environment-specific folders under <code>data/&lt;NODE_ENV&gt;/</code>.</p>
+<p>Dynamic values use <code>@faker-js/faker</code> where scenarios require unique data. Email flows can use Mailosaur when environment variables are set.</p>
+<p><strong>Authentication state:</strong> Google (or other) login can produce storage state files under <code>src/cookies/</code> for reuse in module specs, controlled by setup specs and <code>SKIP_GLOBAL_LOGIN</code>.</p>
+<p class="italic">Setup before a local run:</p>
+<ul>
+  <li><code>npm install</code></li>
+  <li><code>npx playwright install</code> (browsers)</li>
+  <li>Copy <code>src/config/.env.example</code> to <code>.env.staging</code> (or appropriate env) and fill secrets</li>
+  <li><code>npm run test:staging</code> (or targeted spec)</li>
+  <li><code>npx playwright show-report</code> and/or Allure generate/open scripts</li>
+</ul>
+
+<h2>10. Reporting and Monitoring</h2>
+<p>Reports after execution include:</p>
+<ul>
+  <li>Playwright HTML report (steps, traces, attachments)</li>
+  <li>Allure report (trends when history is preserved via project scripts)</li>
+</ul>
+<p>Reports support execution status, screenshots, video, traces, and analysis of failures.</p>
+
+<h2>11. Governance</h2>
+<p class="italic">QA automation engineers</p>
+<ul>
+  <li>Maintain the Playwright framework and conventions (POM, fixtures, data separation).</li>
+  <li>Develop and stabilize automation scripts.</li>
+  <li>Maintain test data modules and coverage alignment with product priorities.</li>
+</ul>
+<p class="italic">Developers</p>
+<ul>
+  <li>Maintain unit tests and support testability (stable selectors, feature flags).</li>
+  <li>Support automation stability when UI or APIs change.</li>
+</ul>
+<p class="italic">Product team</p>
+<ul>
+  <li>Define and prioritize business workflows for automation.</li>
+  <li>Align regression scope with release risk.</li>
+</ul>
+
+<h2>12. Definition of Done for Automation</h2>
+<p>Automation for a scenario is complete when:</p>
+<ul>
+  <li>Page objects use <code>LocatorInfo</code> and shared action/verification factories as per project standards.</li>
+  <li>Test data lives in data files, not hardcoded in specs (except minimal wiring).</li>
+  <li>Tests are added to the appropriate suite and tagged where applicable.</li>
+  <li>Tests pass consistently on the target environment.</li>
+  <li>Code is reviewed and merged.</li>
+  <li>Documentation (README / this strategy) is updated when behavior or setup changes.</li>
+</ul>
+
+<h2>13. Risks and Considerations</h2>
+<p><strong>Third-party and authentication</strong></p>
+<ul>
+  <li>Google login and 2FA depend on valid credentials and secrets; changes to OAuth or UI can break setup flows.</li>
+</ul>
+<p><strong>Environment dependencies</strong></p>
+<ul>
+  <li>Staging availability, feature flags, and data shape affect pass rates; tests assume a known baseline environment.</li>
+</ul>
+<p><strong>UI stability</strong></p>
+<ul>
+  <li>Dynamic UI or timing can cause flaky tests; mitigations include stable locators, appropriate waits, and retries in CI where configured.</li>
+</ul>
+<p><strong>Test data and cleanup</strong></p>
+<ul>
+  <li>Long-lived data or shared accounts may require teardown hooks (<code>global-teardown</code>, optional API) where enabled.</li>
+</ul>
+
+<h2>14. Deliverables</h2>
+<ul>
+  <li>Playwright + TypeScript automation framework for Jump App</li>
+  <li>Automated regression / feature test suites under <code>src/specs/</code></li>
+  <li>Page objects and data modules for login, home, meetings, new meeting, actions, and contacts</li>
+  <li>Automated test reports (Playwright HTML, Allure)</li>
+  <li>Project README and environment configuration guidance</li>
+  <li>This automation strategy document</li>
+</ul>
+
+<p style="margin-top:2rem;font-size:0.9rem;color:#555;">English automation strategy for <code>jump-app-playwright-framework</code>. For a native Word file, use the generated <code>docs/Jump_App_automation_strategy.docx</code> or run <code>npm run docs:automation-strategy-docx</code>.</p>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+import { faker } from "@faker-js/faker";
+import { test } from "@fixtures/mergePage.fixture";
+import { getDataSet } from "@utilities/env.utils";
+import { getStorageStatePath } from "@utilities/storage.state.utils";
+import { logTestCaseData } from "@utilities/test.helper.utils";
+
+const createNewTemplateScenario = getDataSet("template", "templateTestData", "create-new-template");
+
+test.use({ storageState: getStorageStatePath("jumpappGoogle") });
+
+test.describe("Template", () => {
+  test(
+    `
+      Test case: '${createNewTemplateScenario.testCaseData.testCase}'
+      Summary: ${createNewTemplateScenario.testCaseData.testSummary}
+      Description: ${createNewTemplateScenario.testCaseData.testDescription}
+      Tags: '${createNewTemplateScenario.testCaseData.tags}'
+    `,
+    async ({ templatePage }) => {
+      await logTestCaseData(test.info(), createNewTemplateScenario.testCaseData);
+
+      const templateName = `${createNewTemplateScenario.createTemplate.sectionTitlePrefix} - ${faker.person.lastName()} ${faker.string.alphanumeric(4)}`;
+      const instructions = createNewTemplateScenario.createTemplate.instructions;
+
+      await test.step("Go to Templates tab in user settings", async () => {
+        await templatePage.navigateToTemplates(createNewTemplateScenario.baseUrl);
+      });
+
+      await test.step("Click New template and open template editor", async () => {
+        await templatePage.clickNewTemplate();
+        await templatePage.verifyNewTemplateEditorPage();
+      });
+
+      await test.step("Add random name, professional instructions, click Save, and verify Template saved", async () => {
+        await templatePage.createMeetingPrepTemplate(templateName, instructions);
+      });
+    }
+  );
+});

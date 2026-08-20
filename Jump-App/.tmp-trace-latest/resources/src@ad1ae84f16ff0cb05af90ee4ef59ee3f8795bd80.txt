@@ -1,0 +1,46 @@
+import { test } from "@fixtures/mergePage.fixture";
+import { TemplatePage } from "@page/template/template.page";
+import { getDataSet } from "@utilities/env.utils";
+import { getStorageStatePath } from "@utilities/storage.state.utils";
+import { logTestCaseData } from "@utilities/test.helper.utils";
+
+const createNewTemplateScenario = getDataSet("template", "templateTestData", "create-new-template");
+
+test.use({ storageState: getStorageStatePath("jumpappGoogle") });
+
+test.describe("Template", () => {
+  test.only(
+    `
+      Test case: '${createNewTemplateScenario.testCaseData.testCase}'
+      Summary: ${createNewTemplateScenario.testCaseData.testSummary}
+      Description: ${createNewTemplateScenario.testCaseData.testDescription}
+      Tags: '${createNewTemplateScenario.testCaseData.tags}'
+    `,
+    async ({ templatePage }) => {
+      test.setTimeout(120_000);
+      await logTestCaseData(test.info(), createNewTemplateScenario.testCaseData);
+
+      const { templateName } = TemplatePage.buildUniqueTemplateName(
+        createNewTemplateScenario.createTemplate.templateNamePrefix
+      );
+      const instructions = createNewTemplateScenario.createTemplate.instructions;
+
+      await test.step("Go to Templates tab in user settings", async () => {
+        await templatePage.navigateToTemplates(createNewTemplateScenario.baseUrl);
+      });
+
+      await test.step("Click New template and open template editor", async () => {
+        await templatePage.clickNewTemplate();
+        await templatePage.verifyNewTemplateEditorPage();
+      });
+
+      await test.step("Set unique template name, add professional instructions, and click Save", async () => {
+        await templatePage.createMeetingPrepTemplate(templateName, instructions);
+      });
+
+      await test.step("Open saved template from list and verify unique name", async () => {
+        await templatePage.openTemplateFromListAndVerifyName(createNewTemplateScenario.baseUrl, templateName);
+      });
+    }
+  );
+});

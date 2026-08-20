@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" width="181" height="181" viewBox="-11.780750 -41.210650 181.327800 181.327800" fill="rgb(198 206 210)" preserveAspectRatio="xMidYMid meet">
+  <style>
+    #planet_wrap {
+      transform: translate(46.9273px, 74.8154px);
+      transform-origin: 0 0;
+      animation: planetScale 1.8s cubic-bezier(.4, 0, .2, 1) infinite;
+    }
+
+    #moon_wrap {
+      transform: translate(110.839px, 24.0911px);
+      transform-origin: 0 0;
+      animation: moonScale 1.8s cubic-bezier(.4, 0, .2, 1) infinite;
+    }
+
+    @keyframes planetScale {
+      0% {
+        transform: translate(46.9273px, 74.8154px) scale(1);
+      }
+
+      50% {
+        transform: translate(46.9273px, 74.8154px) scale(0.515260);
+      }
+
+      100% {
+        transform: translate(46.9273px, 74.8154px) scale(1);
+      }
+    }
+
+    @keyframes moonScale {
+      0% {
+        transform: translate(110.839px, 24.0911px) scale(1);
+      }
+
+      50% {
+        transform: translate(110.839px, 24.0911px) scale(1.940769);
+      }
+
+      100% {
+        transform: translate(110.839px, 24.0911px) scale(1);
+      }
+    }
+  </style>
+  <g id="moon_wrap">
+    <ellipse cx="0" cy="0" rx="24.0531" ry="24.0531" />
+  </g>
+  <g id="planet_wrap">
+    <ellipse cx="0" cy="0" rx="46.6815" ry="46.6815" />
+  </g>
+</svg>

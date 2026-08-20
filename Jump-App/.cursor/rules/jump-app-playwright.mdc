@@ -1,0 +1,100 @@
+---
+description: Jump App Playwright TypeScript framework structure and conventions
+globs: ["**/*.ts", "**/*.spec.ts", "**/*.page.ts", "**/*.data.ts", "**/*.interface.ts", "**/*.fixture*.ts"]
+alwaysApply: true
+---
+
+# Jump App Playwright TypeScript Framework Rules
+
+## Project structure
+
+This project follows **Page Object Model (POM)** with TypeScript and Playwright. Structure matches `data/` layout: **login** and **modules** (one folder per feature).
+
+```
+src/
+├── page/                    # Page Object classes
+│   ├── login/               # Login page (login.page.ts)
+│   └── modules/             # Feature page objects (actions, contacts, home, meetings, newMeeting)
+├── specs/                   # Test specifications
+│   ├── login/               # Login specs (login.spec.ts, logout.spec.ts)
+│   └── modules/             # Feature specs (actions, contacts, home, meetings, newMeeting)
+├── data/                    # Test data
+│   ├── login/               # login.data.ts
+│   └── modules/             # actions.data.ts, contacts.data.ts, home.data.ts, meetings.data.ts, newMeeting.data.ts
+├── interfaces/              # TypeScript interfaces
+│   ├── login/               # login.interfaces.ts
+│   ├── modules/             # actions.interface.ts, contacts.interface.ts, home.interface.ts, meetings.interface.ts, newMeeting.interface.ts
+│   ├── locator.info.interface.ts
+│   ├── mailosaur.interface.ts
+│   └── testcase.data.interface.ts
+├── fixtures/                # Playwright fixtures (page.fixtures.ts, mergePage.fixture.ts)
+├── utilities/               # Helpers (env.utils, playwright.actions.utils, etc.)
+├── config/                  # .env.staging, etc.
+└── cookies/                 # Stored auth (e.g. jumpapp-google-auth.json)
+```
+
+## Path aliases (tsconfig.json)
+
+- `@page/*` → src/page/*
+- `@fixtures/*` → src/fixtures/*
+- `@utilities/*` → src/utilities/*
+- `@data/*` → src/data/*
+- `@interfaces/*` → src/interfaces/*
+
+Use these in imports; do not use relative paths like `../../../` for cross-layer imports.
+
+## Naming conventions
+
+| Type        | Convention   | Example                |
+|------------|--------------|------------------------|
+| Page file  | feature.page.ts | newMeeting.page.ts  |
+| Spec file  | feature.spec.ts | newMeeting.spec.ts  |
+| Data file  | feature.data.ts | newMeeting.data.ts  |
+| Interface  | feature.interface.ts (modules) or feature.interfaces.ts (login) | newMeeting.interface.ts |
+| Locators   | camelCase    | newMeetingBtn, sendNotetakerFormUrl |
+| Methods    | verbNoun     | navigateToApp(), waitForNotetakerToast() |
+| Test tags  | @camelCase   | @smoke @meetings @sendNotetaker |
+
+## Adding a new module
+
+For a new feature (e.g. `reports`):
+
+1. **data/modules/reports.data.ts** – Export `getData(testCase: string)` and use types from interfaces.
+2. **interfaces/modules/reports.interface.ts** – Extend `TestCaseData`; export scenario types.
+3. **page/modules/reports.page.ts** – Class with `Page`, `TestInfo`, `PlaywrightActionFactory`, `locators: { [key: string]: LocatorInfo }`.
+4. **specs/modules/reports.spec.ts** – Import `test` from `@fixtures/mergePage.fixture`; use `getDataSet("reports", "reportsTestData", testCase)` and the page fixture.
+5. **fixtures/page.fixtures.ts** – Add `ReportsPage` import and `reportsPage` fixture.
+
+Data is resolved by **filename**: `getDataSet("reports", "reportsTestData", "some-case")` looks for `reports.data.ts` under `data/` (or `data/<env>/`).
+
+## Page Object pattern
+
+- Constructor: `(page: Page, _testInfo: TestInfo)`.
+- Use `PlaywrightActionFactory` for actions (click, sendKeys, waitForSelector).
+- Every locator must be `LocatorInfo`: `{ description: string; locator: Locator }`.
+- Prefer: `data-testid`, `aria-label`, text with `normalize-space()`; avoid dynamic IDs.
+
+## Data pattern
+
+- Data files export `getData(testCase: string)` returning the scenario object.
+- `getDataSet(filename, datasetName, testCase)` in `env.utils` finds `filename.data.ts` under `data/` and calls `getData(testCase)` (or falls back to `datasetName[testCase]`).
+- Test data lives in `data/login/` and `data/modules/`; no test data in spec files.
+
+## Spec pattern
+
+- Import: `import { test } from "@fixtures/mergePage.fixture";`
+- Use fixtures: `loginPage`, `newMeetingPage`, etc., and `getDataSet(...)` for scenario.
+- Use `test.step()` for reporting; add tags (e.g. `@smoke`) in the test title or data.
+
+## Fixtures
+
+- **page.fixtures.ts** – Defines all page fixtures (loginPage, meetingsPage, newMeetingPage, actionsPage, contactsPage, homePage).
+- **mergePage.fixture.ts** – Re-exports the extended `test` from page.fixtures. Specs import from `@fixtures/mergePage.fixture`.
+
+## Rules
+
+1. Always use **LocatorInfo** (with description) for locators.
+2. Use **PlaywrightActionFactory** for actions in page objects.
+3. Do not hardcode test data in specs; use **data** files and **getDataSet**.
+4. Keep **page / specs / data / interfaces** in sync: one module = one folder under each (login vs modules/feature).
+5. Use path aliases (**@page**, **@fixtures**, **@utilities**, **@data**, **@interfaces**) in imports.

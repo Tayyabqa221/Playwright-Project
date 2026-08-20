@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+
+      <!-- Google Tag Manager -->
+      <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-58DGRH6V');
+      </script>
+      <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="TwhDLjoHAz4AISlyHCh6LDFfUAM_dEYL9c9On37xsYYGmoBZUk5nRGwI">
+    <link rel="icon" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBzdHlsZT0iZmlsbDpibGFjaztmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MTtzdHJva2Utb3BhY2l0eTowO2ZpbGwtcnVsZTpub256ZXJvOyI+CjxnIHN0eWxlPSJmaWxsOiMwOTA5MEI7Ij4KICA8ZWxsaXBzZSBjeD0iNi4xIiBjeT0iMTAuMzUiIHJ4PSI1IiByeT0iNSIvPgo8L2c+CjxnIHN0eWxlPSJmaWxsOiMwOTA5MEI7Ij4KICA8ZWxsaXBzZSBjeD0iMTIuMjUiIGN5PSI0LjI1IiByeD0iMi41IiByeT0iMi41Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBzdHlsZT0iZmlsbDpibGFjaztmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MTtzdHJva2Utb3BhY2l0eTowO2ZpbGwtcnVsZTpub256ZXJvOyI+CjxnIHN0eWxlPSJmaWxsOiNGRkZGRkY7Ij4KICA8ZWxsaXBzZSBjeD0iNi4xIiBjeT0iMTAuMzUiIHJ4PSI1IiByeT0iNSIvPgo8L2c+CjxnIHN0eWxlPSJmaWxsOiNGRkZGRkY7Ij4KICA8ZWxsaXBzZSBjeD0iMTIuMjUiIGN5PSI0LjI1IiByeD0iMi41IiByeT0iMi41Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/images/branding-2025/favicons/favicon-86d2d6df5f9779174cee017d786a6509.png" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/images/branding-2025/favicons/favicon_inverse-faa1ea8a68d70ba6d4b07c5afa045ff5.png" media="(prefers-color-scheme: dark)">
+    <title data-suffix=" - Jump">
+      Login
+     - Jump</title>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/TT_Hoves_Pro_Regular-e8500f3ac64017bb430b3437ff1d9410.woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/TT_Hoves_Pro_Medium-e7d9fa8d293d69b6a1cfb91fbd305c98.woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/TT_Hoves_Pro_DemiBold-e5a5809472e8378980a932fb81a10ecf.woff2" crossorigin="anonymous">
+    <link phx-track-static rel="stylesheet" href="/assets/app-e154df489c04898804aab67040bf6446.css">
+    <link phx-track-static rel="stylesheet" href="/assets/block-editor-c09c921b24fd252f1832106658c585d8.css" media="print" onload="this.media='all'">
+    <script type="text/javascript">
+      window.RUNTIME_CONFIG = {"dev_posthog_send_enabled":false,"dev_posthog_api_key":null,"chaos_monkey_enabled":false};
+    </script>
+
+    <script>
+      // Prevent ask-anything button flicker on page load
+      // This runs synchronously before body renders to hide the button if sidebar is already open
+      (function() {
+        try {
+          var isOpen = localStorage.getItem('ask-anything:sidebar-open') === 'true';
+          if (isOpen) {
+            document.documentElement.classList.add('ask-anything-open');
+          }
+        } catch (e) {
+          // localStorage unavailable, button will show by default
+        }
+      })();
+    </script>
+    <style>
+      /* Hide ask-anything toggle button when sidebar is open (prevents flicker on load) */
+      html.ask-anything-open [data-role="ask-anything-open"] {
+        display: none !important;
+      }
+    </style>
+    <script defer phx-track-static type="text/javascript" src="/assets/app-6bee912b1c2a8f894366e37796e71d23.js">
+    </script>
+
+    <script defer src="https://unpkg.com/@alpinejs/collapse@3.15.12/dist/cdn.min.js" integrity="sha384-NArNwzWsUSF+kY2lgW4YriEkjLqi+J+za6HrENUn/3nZqkBnWbxV22kCJEK5Uu6n" crossorigin="anonymous">
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.12/dist/cdn.min.js" integrity="sha384-pb6hrQvo4s23cEUFtj0CZkzGE3jyK3pj26RIupXXxhSrrcUA/Cn0lZgcCrGH0t6L" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+    
+    
+  </head>
+  <body class="h-full jump-web bg-surface-content-paper">
+
+
+    <div id="ask-anything-root" data-ask-anything-root phx-update="ignore" data-enabled="false" data-props="{}">
+    </div>
+    <div id="flash_group" class="fixed bottom-0 right-0 z-[9999] w-5/6 max-w-sm m-4 space-y-4">
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+
+  <div id="flash_group-disconnected" phx-disconnected="[[&quot;show&quot;,{&quot;time&quot;:300,&quot;to&quot;:&quot;#disconnected&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-300&quot;],[&quot;opacity-0&quot;],[&quot;opacity-100&quot;]]}]]" phx-connected="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#disconnected&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-in&quot;,&quot;duration-200&quot;],[&quot;opacity-100&quot;],[&quot;opacity-0&quot;]]}]]" hidden>
+    <div id="flash_group-disconnected-flash" phx-hook="ClearFlashHook" phx-mounted="[[&quot;show&quot;,{&quot;time&quot;:300,&quot;to&quot;:&quot;#flash_group-disconnected-flash&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-300&quot;],[&quot;opacity-0&quot;],[&quot;opacity-100&quot;]]}]]" data-qa="flash" data-timer-length="99999" data-type="error" data-is-static="true" data-role="error-flash" class="bg-danger-inverse rounded-lg shadow-lg text-primary-inverse sm:w-full hidden group" role="alert">
+  <div class="overflow-hidden rounded-lg shadow-xs">
+    
+    <div class="flex items-start p-4">
+      <div class="flex-shrink-0">
+        
+        
+        <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="exclamation_circle" data-render-nonce="6051652">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
+</svg>
+      </div>
+      <div class="ml-3 w-0 flex-1 pt-0.5">
+        <div class="text-sm font-medium leading-5 text-primary-inverse">
+          
+            <div class="whitespace-pre-line">Internet lost. Attempting reconnection...</div>
+          
+        </div>
+      </div>
+      <div class="flex flex-shrink-0 ml-4">
+        
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+<div class="flex flex-col min-h-screen bg-[var(--jump-brand-rice)]">
+  <div class="grow flex flex-col p-8">
+
+      <script>
+        window.recaptchaLoadedCallbacks = [];
+        window.onRecaptchaLoaded = (callback) => {
+          if (window.grecaptcha && window.grecaptcha.enterprise) {
+            console.log("ReCaptcha already loaded, executing callback");
+            callback();
+          } else {
+            console.log("ReCaptcha not loaded, queueing callback");
+            window.recaptchaLoadedCallbacks.push(callback);
+          }
+        };
+
+        window.onRecaptchaLoad = function() {
+          console.log("ReCaptcha loaded");
+          window.executeRecaptcha = async () => {
+            try {
+              const token = await grecaptcha.enterprise.execute('6Le7A7sqAAAAACOa_wZErTdWHtK75jL0K-CyZlOS', {action: 'LOGIN'});
+              console.log("ReCaptcha token generated:", !!token);
+              return token;
+            } catch (error) {
+              console.error("ReCaptcha execution error:", error);
+              throw error;
+            }
+          };
+
+          // Process any queued callbacks
+          window.recaptchaLoadedCallbacks.forEach(callback => callback());
+          window.recaptchaLoadedCallbacks = [];
+        };
+      </script>
+
+      <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le7A7sqAAAAACOa_wZErTdWHtK75jL0K-CyZlOS&amp;onload=onRecaptchaLoad">
+      </script>
+
+    <div class="flex flex-col justify-center items-center gap-3 grow">
+
+        <div class="flex items-center justify-center h-full">
+  <img src="/images/branding-2025/jump_logo.svg" class="h-11 dark:invert">
+</div>
+
+      <div class="p-4 w-full max-w-[388px]">
+
+        
+
+
+
+
+
+                <div class="text-2xl font-medium leading-8 text-center text-primary">
+                  Log in to your account
+                </div>
+                <div class="mt-4 mb-8 text-base font-normal leading-5 text-center text-primary">
+                  Sign in with the same email you used to set up your Jump account originally.
+                </div>
+
+
+
+                <div class="mb-4 w-full flex gap-y-2 items-center flex-col">
+                  <a class="inline-flex gap-1.5 h-9 items-center justify-center rounded-lg focus:outline-none transition bg-transparent border border-primary text-primary hover:bg-secondary active:bg-tertiary px-3 py-1.5 text-base w-full font-medium whitespace-nowrap" href="/v1/oauth/microsoft?flow=login&amp;fresh=true&amp;callback-url=/">
+                    <img src="/images/logomark-microsoft.svg" class="w-6">
+
+
+                      Continue with Microsoft
+
+                  </a>
+                  <a class="inline-flex gap-1.5 h-9 items-center justify-center rounded-lg focus:outline-none transition bg-transparent border border-primary text-primary hover:bg-secondary active:bg-tertiary px-3 py-1.5 text-base w-full font-medium whitespace-nowrap" href="/v1/oauth/google?flow=login&amp;fresh=true&amp;callback-url=/">
+                    <img src="/images/logomark-google.svg" class="w-7"> Continue with Google
+                  </a>
+                </div>
+
+
+
+                <div class="w-full flex items-center gap-4 my-4">
+                  <div class="flex-1 border-t border-secondary"></div>
+                  <span class="text-primary text-sm font-semibold">or</span>
+                  <div class="flex-1 border-t border-secondary"></div>
+                </div>
+
+
+
+                <div class="w-full flex gap-y-4 items-center flex-col">
+  <div class="w-full">
+    <form action="/login" method="post" class="flex flex-col gap-2">
+  
+  <input name="_csrf_token" type="hidden" hidden value="TwhDLjoHAz4AISlyHCh6LDFfUAM_dEYL9c9On37xsYYGmoBZUk5nRGwI">
+  
+      <input type="hidden" name="g-recaptcha-response">
+      <input type="hidden" id="magic-link-flow" name="flow" value="login">
+
+      <div class="flex flex-col gap-1">
+        <label for="email" class="text-primary font-medium">
+          Email address <span class="text-danger">*</span>
+        </label>
+      </div>
+
+      <input type="text" name="email" id="email" class="pc-text-input w-full text-primary plain pc-text-input" placeholder="Email" autofocus>
+      <button class="pc-button pc-button--primary pc-button--md w-full pc-button--disabled" disabled id="magic_link_form" phx-hook="ReCaptcha" data-style="primary">
+  
+  
+  
+
+  Continue
+  
+
+</button>
+    
+</form>
+
+    <div class="mt-4 text-center w-full text-primary text-sm">
+      Already have a code?
+      <a href="/login-with-code" class="text-link font-medium">Enter it here.</a>
+    </div>
+  </div>
+</div>
+
+
+
+                <div class="w-full mt-2 text-center text-primary text-sm">
+                  Don't have an account yet?
+                  <a href="/signup" class="text-link font-medium">Sign up</a>
+                </div>
+
+
+
+
+        <div id="why_signup_modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+          <div class="flex min-h-full items-center justify-center p-4">
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onclick="document.getElementById('why_signup_modal').style.display = 'none';">
+            </div>
+            <div class="relative transform overflow-hidden rounded-lg bg-surface-modal-paper shadow-xl transition-all sm:my-8 sm:w-full" style="min-width: 360px; max-width: 720px;">
+              <div class="flex justify-between items-center pt-5 pb-6 pl-8 pr-8">
+                <h1 class="text-2xl font-medium text-primary w-full" style="line-height: 32px;">
+                  Why sign up using one of these services?
+                </h1>
+                <button class="pc-button pc-button--clear-emphasis pc-button--sm -mr-2" type="button" data-style="clear-emphasis" onclick="document.getElementById(&#39;why_signup_modal&#39;).style.display = &#39;none&#39;;">
+  
+  
+
+  
+                  <span class="sr-only">Close</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="x_mark">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+</svg>
+                
+  
+</button>
+              </div>
+              <div class="flex flex-col px-8 pt-6 pb-6">
+                <p class="text-lg font-normal text-primary" style="line-height: 24px;">
+                  Jump needs access to the calendar you use to schedule meetings in order to send a notetaker.
+                </p>
+                <p class="text-lg font-normal text-primary" style="line-height: 24px;">
+                  When you sign up using your Google or Microsoft account you'll be able to quickly grant calendar access and be <span class="font-medium">up and running in minutes</span>.
+                </p>
+              </div>
+              <div class="flex justify-end space-x-4 px-8 py-7">
+                <button class="pc-button pc-button--secondary pc-button--md" data-style="secondary" onclick="window.location.href=&#39;?other_options=true&#39;;">
+  
+  
+
+  Sign up a different way
+  
+</button>
+                <button class="pc-button pc-button--primary pc-button--md" data-style="primary" onclick="document.getElementById(&#39;why_signup_modal&#39;).style.display = &#39;none&#39;;">
+  
+  
+
+  Got it
+  
+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col items-center pb-8 text-secondary text-sm">
+    <div>
+      <a href="https://jumpapp.com/terms-of-service" target="_blank" class="hover:underline" rel="noopener noreferrer">
+        Terms of Service
+      </a>
+      <span class="mx-1">|</span>
+      <a href="https://jumpapp.com/privacy-policy" target="_blank" class="hover:underline" rel="noopener noreferrer">
+        Privacy Policy
+      </a>
+    </div>
+    <div class="text-xs mt-1">Protected by reCAPTCHA</div>
+    <div class="bg-yellow-100 border border-yellow-300 text-yellow-700 p-3 rounded-md text-xs mt-4">
+      <p>You are viewing a staging environment: dev</p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  document.addEventListener('keyup', function(event) {
+    // keycode for escape
+    if (event.keyCode === 27) {
+      const modal = document.getElementById('why_signup_modal');
+      if (modal && modal.style.display === 'block') {
+        modal.style.display = 'none';
+      }
+    }
+  });
+</script>
+
+      <!-- Google Tag Manager (noscript) -->
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58DGRH6V" height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+      </noscript>
+      <!-- End Google Tag Manager (noscript) -->
+
+    <div id="modal_wrapper" class="fixed inset-0 z-50 hidden">
+  <div class="fixed inset-0 bg-surface-modal-paper opacity-50"></div>
+  <dialog id="danger_dialog" class="no-overflow px-0 rounded-2xl py-0 relative z-50 bg-primary">
+    <form method="dialog">
+      <div class="grid gap-4 px-10 pt-10 pb-6">
+        <h1 class="text-2xl text-left">
+          Are you sure?
+        </h1>
+        <p class="text-secondary text-left" data-ref="body"></p>
+        <input type="text" id="confirm_input" name="confirm_input" data-ref="confirm-input" class="hidden mt-4 p-2 border border-primary rounded bg-primary text-primary">
+      </div>
+      <div class="p-8 border-t flex gap-5 items-center justify-end">
+        <button class="pc-button pc-button--clear pc-button--md" type="submit" value="cancel" data-style="clear" data-ref="cancel">
+  
+  
+
+  
+          Cancel
+        
+  
+</button>
+        <button class="pc-button pc-button--danger pc-button--md test-class-delete" type="submit" value="confirm" data-style="danger" data-ref="confirm">
+  
+  
+
+  
+  
+</button>
+      </div>
+    </form>
+  </dialog>
+</div>
+    <script>
+      window.recaptchaSiteKey = "6Le7A7sqAAAAACOa_wZErTdWHtK75jL0K-CyZlOS";
+    </script>
+  </body>
+</html>

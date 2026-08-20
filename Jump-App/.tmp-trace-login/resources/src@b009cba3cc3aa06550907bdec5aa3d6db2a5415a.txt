@@ -1,0 +1,264 @@
+import { Page, TestInfo } from "@playwright/test";
+import { LocatorInfo } from "@interfaces/locator.info.interface";
+import { PlaywrightActionFactory } from "@utilities/playwright.actions.utils";
+import { getTotpCode } from "@utilities/totp.utils";
+
+export class LoginPage {
+  private readonly page: Page;
+  private readonly testInfo: TestInfo;
+  private readonly playwrightActionsFactory: PlaywrightActionFactory;
+  private readonly locators: { [key: string]: LocatorInfo };
+
+  constructor(page: Page, testInfo: TestInfo) {
+    this.page = page;
+    this.testInfo = testInfo;
+    this.playwrightActionsFactory = new PlaywrightActionFactory(page, testInfo);
+    this.locators = {
+      googleLoginBtn: {
+        description: "Continue with Google / Sign in with Google",
+        locator: page
+          .getByRole("button", { name: /continue with google|sign in with google/i })
+          .or(page.getByRole("link", { name: /continue with google|sign in with google/i })),
+      },
+      googleEmailInput: {
+        description: "Google email or phone input",
+        locator: page.getByRole("textbox", { name: /email or phone/i }),
+      },
+      googleNextBtn: {
+        description: "Google Next button",
+        locator: page.getByRole("button", { name: "Next" }),
+      },
+      googlePasswordInput: {
+        description: "Google password input",
+        locator: page.getByRole("textbox", { name: /enter your password|password/i }),
+      },
+      twoFactorInput: {
+        description: "Two-factor authentication code input",
+        locator: page
+          .getByRole("textbox", { name: /enter.*code|verification code|one-time|6.digit/i })
+          .or(
+            page.locator(
+              'input[name="totpPin"], input#totpPin, input[type="tel"], input[autocomplete="one-time-code"]'
+            )
+          )
+          .or(page.getByPlaceholder(/enter.*code|verification|code/i))
+          .or(page.locator('input[name*="totp"], input[name*="code"]')),
+      },
+      twoFactorSubmit: {
+        description: "Submit 2FA code (Next / Continue)",
+        locator: page
+          .locator("button#forward")
+          .or(page.getByRole("button", { name: /^next$|^verify$|^submit$|^continue$/i })),
+      },
+      consentContinueBtn: {
+        description: "Continue on signing back in screen",
+        locator: page.getByRole("button", { name: "Continue", exact: true }),
+      },
+      googleConsentAllowBtn: {
+        description: "Google consent Allow button (exact - not Cancel)",
+        locator: page.getByRole("button", { name: "Allow", exact: true }),
+      },
+      tryAnotherWayBtn: {
+        description: "Google 2FA Try another way button or link",
+        locator: page
+          .getByRole("button", { name: /try another way/i })
+          .or(page.getByRole("link", { name: /try another way/i }))
+          .or(page.getByText(/^try another way$/i)),
+      },
+      authenticatorAppOption: {
+        description: "Google Authenticator app verification option",
+        locator: page
+          .getByRole("button", {
+            name: /authenticator app|google authenticator|verification code from.*authenticator/i,
+          })
+          .or(
+            page.getByRole("link", {
+              name: /authenticator app|google authenticator|verification code from.*authenticator/i,
+            })
+          )
+          .or(page.getByText(/get a verification code from the google authenticator app/i))
+          .or(page.getByText(/enter.*code.*authenticator/i))
+          .or(page.locator('[data-challengetype="6"]')),
+      },
+    };
+  }
+
+  async navigateToLoginPage(baseUrl: string): Promise<void> {
+    await this.playwrightActionsFactory.navigateToURL(`${baseUrl}`);
+  }
+
+  /**
+   * Logs in with Google. When `twoFactorSecret` is set, a fresh TOTP code is generated
+   * from the authenticator secret when the 2FA screen appears.
+   */
+  async loginWithGoogle(
+    email: string,
+    password: string,
+    twoFactorSecret?: string,
+    baseUrl?: string
+  ): Promise<void> {
+    await this.playwrightActionsFactory.click(this.locators.googleLoginBtn);
+    await this.playwrightActionsFactory.sendKeys(this.locators.googleEmailInput, email);
+    await this.playwrightActionsFactory.click(this.locators.googleNextBtn);
+    await this.playwrightActionsFactory.sendKeys(this.locators.googlePasswordInput, password, true);
+    await this.playwrightActionsFactory.click(this.locators.googleNextBtn);
+
+    await this.completeGoogleSignIn(twoFactorSecret, baseUrl);
+  }
+
+  /** Handles 2FA, account chooser Continue, OAuth Allow, until the app home URL is reached. */
+  private async completeGoogleSignIn(twoFactorSecret?: string, baseUrl?: string): Promise<void> {
+    const deadline = Date.now() + 120_000;
+
+    while (Date.now() < deadline) {
+      if (this.page.isClosed()) {
+        throw new Error("Browser page closed during Google sign-in");
+      }
+
+      if (this.isOnAppHome(baseUrl)) {
+        return;
+      }
+
+      if (twoFactorSecret) {
+        if (await this.tryOpenAuthenticatorCodeScreen()) {
+          await this.waitBriefly(1500);
+          continue;
+        }
+
+        if (await this.tryFillTwoFactorFromAuthenticator(twoFactorSecret)) {
+          await this.waitBriefly(2000);
+          continue;
+        }
+      }
+
+      if (await this.tryClickVisible(this.locators.consentContinueBtn, 1500)) {
+        await this.waitBriefly(1500);
+        continue;
+      }
+
+      if (await this.tryClickVisible(this.locators.googleConsentAllowBtn, 1500)) {
+        await this.waitBriefly(2000);
+        continue;
+      }
+
+      await this.waitBriefly(500);
+    }
+
+    if (baseUrl && !this.isOnAppHome(baseUrl)) {
+      const appOrigin = baseUrl.replace(/\/$/, "").toLowerCase();
+      await this.page.waitForURL((url) => url.href.toLowerCase().startsWith(appOrigin), { timeout: 15_000 });
+    }
+  }
+
+  /**
+   * Google often shows phone/push prompt first. Click Try another way, then choose Authenticator app.
+   */
+  private async tryOpenAuthenticatorCodeScreen(): Promise<boolean> {
+    let acted = false;
+
+    if (await this.tryClickVisible(this.locators.tryAnotherWayBtn, 2000)) {
+      acted = true;
+      await this.waitBriefly(1500);
+    }
+
+    if (await this.tryClickVisible(this.locators.authenticatorAppOption, 2000)) {
+      acted = true;
+      await this.waitBriefly(1500);
+    }
+
+    return acted;
+  }
+
+  private async waitBriefly(ms: number): Promise<void> {
+    if (this.page.isClosed()) {
+      throw new Error("Browser page closed during Google sign-in");
+    }
+    await this.page.waitForTimeout(ms);
+  }
+
+  /** Waits for 2FA input, generates a fresh TOTP code from authenticator, and submits. */
+  private async tryFillTwoFactorFromAuthenticator(twoFactorSecret: string): Promise<boolean> {
+    const input = this.locators.twoFactorInput.locator.first();
+    const isVisible = await input
+      .waitFor({ state: "visible", timeout: 5000 })
+      .then(() => true)
+      .catch(() => false);
+
+    if (!isVisible) {
+      return false;
+    }
+
+    const code = getTotpCode(twoFactorSecret);
+    await this.testInfo.attach("2FA code generated from authenticator", {
+      body: "Fresh TOTP code generated from JUMPAPP_2FA_SECRET",
+      contentType: "text/plain",
+    });
+
+    await this.playwrightActionsFactory.sendKeys(this.locators.twoFactorInput, code);
+    await this.waitBriefly(400);
+
+    const submit = this.locators.twoFactorSubmit.locator.first();
+    if (await submit.isVisible().catch(() => false)) {
+      await submit.click();
+    } else {
+      await this.page.keyboard.press("Enter");
+    }
+
+    return true;
+  }
+
+  private async tryClickVisible(locatorInfo: LocatorInfo, timeoutMs: number): Promise<boolean> {
+    const button = locatorInfo.locator.first();
+    const isVisible = await button
+      .waitFor({ state: "visible", timeout: timeoutMs })
+      .then(() => true)
+      .catch(() => false);
+
+    if (!isVisible) {
+      return false;
+    }
+
+    await button.click();
+    return true;
+  }
+
+  private isOnAppHome(baseUrl?: string): boolean {
+    if (!baseUrl) {
+      return false;
+    }
+    const appOrigin = baseUrl.replace(/\/$/, "").toLowerCase();
+    const current = this.page.url().toLowerCase();
+    return current.startsWith(appOrigin) && !current.includes("/login");
+  }
+
+  async waitForAppHome(baseUrl: string): Promise<void> {
+    const appOrigin = baseUrl.replace(/\/$/, "").toLowerCase();
+    await this.page.waitForURL(
+      (url) => {
+        const u = url.href.toLowerCase();
+        return u.startsWith(appOrigin) && !u.includes("/login");
+      },
+      { timeout: 60000 }
+    );
+    await this.page.waitForLoadState("domcontentloaded");
+  }
+
+  /** Waits until we have landed on the app home (New meeting, sidebar, etc.) before saving state. */
+  async waitForAuthenticatedUI(): Promise<void> {
+    await this.page.waitForLoadState("domcontentloaded");
+    const authenticatedIndicator = this.page
+      .getByRole("button", { name: /create new|new meeting|open options/i })
+      .or(this.page.locator('[aria-label*="New meeting" i], [aria-label*="Create" i]'))
+      .or(this.page.locator("#new-meeting-menu-trigger"))
+      .first();
+    await authenticatedIndicator.waitFor({ state: "visible", timeout: 60000 });
+  }
+
+  async storeBrowserStorageState(path: string): Promise<void> {
+    await this.page.context().storageState({ path });
+    await this.testInfo.attach("Auth state saved", {
+      body: `Storage state saved to ${path}`,
+      contentType: "text/plain",
+    });
+  }
+}

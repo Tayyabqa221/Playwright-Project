@@ -1,0 +1,207 @@
+import { expect, Page, TestInfo } from "@playwright/test";
+import { LocatorInfo } from "@interfaces/locator.info.interface";
+import { PlaywrightActionFactory } from "@utilities/playwright.actions.utils";
+
+export class TemplatePage {
+  private readonly page: Page;
+  private readonly playwrightActionsFactory: PlaywrightActionFactory;
+  private readonly locators: { [key: string]: LocatorInfo };
+
+  constructor(page: Page, testInfo: TestInfo) {
+    this.page = page;
+    this.playwrightActionsFactory = new PlaywrightActionFactory(page, testInfo);
+    this.locators = {
+      templatesTabLink: {
+        description: "Templates tab in user settings navigation",
+        locator: page
+          .getByRole("link", { name: "Templates", exact: true })
+          .first()
+          .or(page.getByRole("button", { name: "Templates", exact: true }).first()),
+      },
+      newTemplateButton: {
+        description: "New template button on Templates tab",
+        locator: page
+          .getByRole("button", { name: /new template/i })
+          .first()
+          .or(page.locator("button.pc-button--with-icon").filter({ hasText: /new template/i }).first()),
+      },
+      sectionTitleTrigger: {
+        description: "Section title click-to-edit trigger",
+        locator: page.getByText(/section title \(click to edit\)/i).first(),
+      },
+      instructionsBlock: {
+        description: "Instructions content block in template editor",
+        locator: page
+          .locator(".ProseMirror.notion-like-editor, .notion-like-editor")
+          .nth(1)
+          .or(page.locator("motion-tracked-fields-without-container").nth(1))
+          .or(page.getByText(/give a quick summary|financial goals/i).first()),
+      },
+      activeProseMirrorEditor: {
+        description: "Active ProseMirror editor (contenteditable)",
+        locator: page.locator('.ProseMirror[contenteditable="true"]').first(),
+      },
+      sectionDoneButton: {
+        description: "Done button for template section editing",
+        locator: page
+          .getByRole("button", { name: /^done$/i })
+          .first()
+          .or(page.locator("button.bg-primary-600").filter({ hasText: /^done$/i }).first()),
+      },
+      saveTemplateButton: {
+        description: "Save template button",
+        locator: page
+          .getByRole("button", { name: /^save$/i })
+          .first()
+          .or(page.locator("button").filter({ hasText: /^save$/i }).first()),
+      },
+      templateSavedToast: {
+        description: "Template saved success toast",
+        locator: page
+          .locator("#toasts, #success, [role='status'], [role='alert'], [data-testid*='toast'], [class*='toast']")
+          .filter({ hasText: /template saved/i })
+          .or(page.getByText(/template saved/i).first())
+          .first(),
+      },
+    };
+  }
+
+  /** Opens User Settings → Templates tab. */
+  async navigateToTemplates(baseUrl: string): Promise<void> {
+    const rootUrl = baseUrl.replace(/\/$/, "");
+    const candidateUrls = [
+      `${rootUrl}/settings/user?tab=templates`,
+      `${rootUrl}/settings/user?tab=templates&template_type=meeting_prep`,
+    ];
+
+    for (const candidateUrl of candidateUrls) {
+      await this.playwrightActionsFactory.navigateToURL(candidateUrl);
+      await this.page.waitForLoadState("domcontentloaded", { timeout: 20000 });
+      if (this.isTemplatesRoute(this.page.url()) && (await this.isTemplatesTabReady(5000))) {
+        return;
+      }
+    }
+
+    await this.playwrightActionsFactory.navigateToURL(`${rootUrl}/settings/user`);
+    await this.page.waitForLoadState("domcontentloaded", { timeout: 20000 });
+
+    if (await this.locators.templatesTabLink.locator.isVisible().catch(() => false)) {
+      await this.playwrightActionsFactory.click(this.locators.templatesTabLink);
+      await this.page.waitForLoadState("domcontentloaded", { timeout: 10000 });
+      if (await this.isTemplatesTabReady(10000)) {
+        return;
+      }
+    }
+
+    throw new Error(`Unable to open Templates tab. Current URL: ${this.page.url()}`);
+  }
+
+  /** Clicks New template and waits for the template editor route. */
+  async clickNewTemplate(): Promise<string> {
+    await this.locators.newTemplateButton.locator.waitFor({ state: "visible", timeout: 20000 });
+    await this.playwrightActionsFactory.click(this.locators.newTemplateButton);
+    await this.page.waitForURL(/\/settings\/user\/templates\/btmpl_/i, { timeout: 20000 });
+    await this.page.waitForLoadState("domcontentloaded", { timeout: 10000 });
+    return this.page.url();
+  }
+
+  /**
+   * Fills section name and professional instructions, confirms each section, clicks Save,
+   * and verifies Template saved toast.
+   */
+  async createMeetingPrepTemplate(templateName: string, instructions: string): Promise<void> {
+    await this.editTemplateSection(this.locators.sectionTitleTrigger, templateName);
+    await this.editInstructionsSection(instructions);
+    await this.clickSaveTemplate();
+    await this.verifyTemplateSavedToast();
+  }
+
+  /** Verifies Template saved confirmation appears. */
+  async verifyTemplateSavedToast(): Promise<void> {
+    await expect
+      .poll(
+        async () => {
+          const toastVisible = await this.locators.templateSavedToast.locator.isVisible().catch(() => false);
+          if (toastVisible) {
+            return true;
+          }
+          const successFlash = (await this.page.locator("#success").textContent().catch(() => "")) ?? "";
+          return /template saved/i.test(successFlash);
+        },
+        { timeout: 20000 }
+      )
+      .toBeTruthy();
+  }
+
+  /** Verifies the browser is on a new template editor page. */
+  async verifyNewTemplateEditorPage(): Promise<void> {
+    await expect(this.page).toHaveURL(/\/settings\/user\/templates\/btmpl_/i, { timeout: 15000 });
+    await this.locators.sectionTitleTrigger.locator.waitFor({ state: "visible", timeout: 15000 });
+  }
+
+  private async editTemplateSection(trigger: LocatorInfo, text: string): Promise<void> {
+    const target = trigger.locator.first();
+    await target.scrollIntoViewIfNeeded();
+    await target.click({ force: true });
+    await this.fillActiveProseMirrorEditor(text);
+    await this.clickSectionDoneIfVisible();
+  }
+
+  private async editInstructionsSection(text: string): Promise<void> {
+    const block = this.locators.instructionsBlock.locator.first();
+    await block.scrollIntoViewIfNeeded();
+    await block.click({ force: true });
+    await this.fillActiveProseMirrorEditor(text);
+    await this.clickSectionDoneIfVisible();
+  }
+
+  private async fillActiveProseMirrorEditor(text: string): Promise<void> {
+    const editor = this.locators.activeProseMirrorEditor.locator;
+    await editor.waitFor({ state: "visible", timeout: 15000 });
+    await editor.click();
+    await this.page.keyboard.press("Control+A");
+    await editor.pressSequentially(text, { delay: 30 });
+    await this.playwrightActionsFactory.waitForSec(0.5);
+  }
+
+  private async clickSaveTemplate(): Promise<void> {
+    const saveButton = this.locators.saveTemplateButton.locator.first();
+    const isVisible = await saveButton.isVisible().catch(() => false);
+    if (isVisible) {
+      await saveButton.click({ force: true });
+      await this.playwrightActionsFactory.waitForSec(1);
+      return;
+    }
+
+    const headerSave = this.page.locator("header, [role='banner'], form").getByRole("button", { name: /^save$/i }).first();
+    if (await headerSave.isVisible().catch(() => false)) {
+      await headerSave.click({ force: true });
+      await this.playwrightActionsFactory.waitForSec(1);
+    }
+  }
+
+  private async clickSectionDoneIfVisible(): Promise<void> {
+    const doneButton = this.locators.sectionDoneButton.locator.first();
+    const isVisible = await doneButton.isVisible().catch(() => false);
+    if (isVisible) {
+      await doneButton.click({ force: true });
+      await this.playwrightActionsFactory.waitForSec(0.5);
+    }
+  }
+
+  private isTemplatesRoute(url: string): boolean {
+    return /\/settings\/user(\?|$)/i.test(url) && /tab=templates/i.test(url);
+  }
+
+  private async isTemplatesTabReady(timeoutMs: number): Promise<boolean> {
+    try {
+      await Promise.race([
+        this.locators.newTemplateButton.locator.waitFor({ state: "visible", timeout: timeoutMs }),
+        this.page.getByRole("heading", { name: /templates/i }).first().waitFor({ state: "visible", timeout: timeoutMs }),
+      ]);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+}

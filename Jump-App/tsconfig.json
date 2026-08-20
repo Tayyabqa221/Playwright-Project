@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "out",
+    "sourceMap": true,
+    "types": ["node", "@playwright/test"],
+    "baseUrl": ".",
+    "paths": {
+      "@page/*": ["src/page/*"],
+      "@fixtures/*": ["src/fixtures/*"],
+      "@utilities/*": ["src/utilities/*"],
+      "@data/*": ["src/data/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@interfaces/locator.info.interface": ["src/interfaces/locator.info.interface.ts"],
+      "@utilities/playwright.actions.utils": ["src/utilities/playwright.actions.utils.ts"],
+      "@utilities/env.utils": ["src/utilities/env.utils.ts"],
+      "@utilities/test.helper.utils": ["src/utilities/test.helper.utils.ts"],
+      "@utilities/storage.state.utils": ["src/utilities/storage.state.utils.ts"],
+      "@utilities/totp.utils": ["src/utilities/totp.utils.ts"],
+      "@fixtures/mergePage.fixture": ["src/fixtures/mergePage.fixture.ts"],
+      "@fixtures/page.fixtures": ["src/fixtures/page.fixtures.ts"]
+    },
+    "strict": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "playwright.config.ts"],
+  "exclude": ["node_modules"]
+}

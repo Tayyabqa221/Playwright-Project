@@ -1,0 +1,12 @@
+/node_modules
+/playwright-report
+/test-results
+/test-results
+/playwright-report
+/**/.DS_Store
+/allure-report
+/allure-results
+# Local secrets — use .env.example as a template
+/src/config/*
+!/src/config/.env.example
+/src/cookies

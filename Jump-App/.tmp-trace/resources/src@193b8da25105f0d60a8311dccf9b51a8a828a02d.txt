@@ -1,0 +1,221 @@
+import { expect, Locator, Page, TestInfo } from "@playwright/test";
+import path from "path";
+import { LocatorInfo } from "@interfaces/locator.info.interface";
+import { PlaywrightActionFactory } from "@utilities/playwright.actions.utils";
+import { PlaywrightVerificationFactory } from "@utilities/playwright.verifications.utils";
+
+export class DocumentPage {
+  private readonly page: Page;
+  private readonly playwrightActionsFactory: PlaywrightActionFactory;
+  private readonly playwrightVerificationFactory: PlaywrightVerificationFactory;
+  private readonly locators: { [key: string]: LocatorInfo };
+
+  constructor(page: Page, testInfo: TestInfo) {
+    this.page = page;
+    this.playwrightActionsFactory = new PlaywrightActionFactory(page, testInfo);
+    this.playwrightVerificationFactory = new PlaywrightVerificationFactory(page, testInfo);
+    this.locators = {
+      uploadButton: {
+        description: "Upload button in document module",
+        locator: page
+          .getByRole("button", { name: /upload/i })
+          .first()
+          .or(page.locator("[data-testid*='upload'], [data-test*='upload']").first()),
+      },
+      fileInput: {
+        description: "Document file upload input",
+        locator: page
+          .locator("input[type='file']")
+          .first(),
+      },
+      documentsSidebarLink: {
+        description: "Documents link in sidebar",
+        locator: page
+          .getByRole("link", { name: /documents?/i })
+          .first()
+          .or(page.getByRole("button", { name: /documents?/i }).first())
+          .or(page.getByLabel(/documents?/i).first()),
+      },
+      documentThreeDotsButton: {
+        description: "Document row three dots menu button",
+        locator: page.locator("xpath=(//button[contains(@id,'dropdown') and contains(@id,'trigger')])[1]"),
+      },
+      firstDocumentRow: {
+        description: "First document row/item",
+        locator: page
+          .locator("tbody tr, [role='row'], li, article, [data-testid*='document'], [data-test*='document']")
+          .first(),
+      },
+      deleteMenuItem: {
+        description: "Delete menu item",
+        locator: page
+          .getByRole("menuitem", { name: /delete/i })
+          .first()
+          .or(page.getByRole("button", { name: /delete/i }).first())
+          .or(page.locator("[role='menuitem'], button, a").filter({ hasText: /delete/i }).first()),
+      },
+      confirmDeleteButton: {
+        description: "Confirm delete button",
+        locator: page
+          .getByRole("button", { name: /yes,?\s*delete|confirm|delete/i })
+          .first()
+          .or(page.locator("button").filter({ hasText: /yes,?\s*delete|confirm|delete/i }).first()),
+      },
+      documentDeletedToast: {
+        description: "Document deleted success toast",
+        locator: page
+          .locator("[role='status'], [role='alert'], [data-testid*='toast'], [class*='toast']")
+          .filter({ hasText: /document.*deleted|deleted.*document|removed|success/i })
+          .first(),
+      },
+    };
+  }
+
+  /** Opens document module via route candidates and sidebar fallback. */
+  async navigateToDocument(baseUrl: string): Promise<void> {
+    const rootUrl = baseUrl.replace(/\/$/, "");
+    const candidateUrls = [`${rootUrl}/documents`, `${rootUrl}/document`];
+
+    for (const candidateUrl of candidateUrls) {
+      await this.playwrightActionsFactory.navigateToURL(candidateUrl);
+      await this.page.waitForLoadState("domcontentloaded", { timeout: 20000 });
+      if (this.isDocumentRoute(this.page.url())) {
+        return;
+      }
+      if (await this.isDocumentModuleReady(5000)) {
+        return;
+      }
+    }
+
+    await this.playwrightActionsFactory.navigateToURL(rootUrl);
+    await this.page.waitForLoadState("domcontentloaded", { timeout: 20000 });
+
+    if (await this.locators.documentsSidebarLink.locator.isVisible().catch(() => false)) {
+      await this.playwrightActionsFactory.click(this.locators.documentsSidebarLink);
+      await this.page.waitForLoadState("domcontentloaded", { timeout: 10000 });
+      if (this.isDocumentRoute(this.page.url()) || (await this.isDocumentModuleReady(10000))) {
+        return;
+      }
+    }
+
+    throw new Error(`Unable to open Document module. Current URL: ${this.page.url()}`);
+  }
+
+  /** Clicks upload and sets file into file input. */
+  async uploadDocument(filePathOrName: string): Promise<string> {
+    const uploadTrigger = this.page
+      .getByRole("button", { name: /upload( document)?|add document|new document/i })
+      .or(this.page.getByRole("link", { name: /upload( document)?|add document|new document/i }))
+      .or(this.page.getByText(/^upload$/i))
+      .or(this.page.locator("[data-testid*='upload'], [data-test*='upload']"))
+      .first();
+    if (await uploadTrigger.isVisible().catch(() => false)) {
+      await uploadTrigger.click({ force: true });
+    } else if (await this.locators.uploadButton.locator.isVisible().catch(() => false)) {
+      await this.playwrightActionsFactory.click(this.locators.uploadButton);
+    }
+
+    const absoluteFilePath = path.isAbsolute(filePathOrName) ? filePathOrName : path.resolve(process.cwd(), filePathOrName);
+    const fileInput = this.page
+      .locator("input[type='file']")
+      .or(this.page.locator("input[accept*='pdf'], input[accept*='doc'], input[accept*='txt']"))
+      .first();
+    await fileInput.waitFor({ state: "attached", timeout: 20000 });
+    await this.playwrightActionsFactory.setInputFiles(
+      { description: "Document file upload input", locator: fileInput },
+      absoluteFilePath
+    );
+    await this.playwrightActionsFactory.waitForSec(1);
+    return path.basename(absoluteFilePath);
+  }
+
+  /** Verifies uploaded document name is visible in list. */
+  async verifyUploadedDocumentName(expectedFileName: string): Promise<void> {
+    const escapedName = expectedFileName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const uploadedDocumentName: Locator = this.page.getByText(new RegExp(`\\b${escapedName}\\b`, "i")).first();
+    await this.playwrightVerificationFactory.expectElementExist({
+      description: `Uploaded document name ${expectedFileName}`,
+      locator: uploadedDocumentName,
+    });
+    await expect(uploadedDocumentName).toBeVisible({ timeout: 15000 });
+  }
+
+  /** Opens uploaded documents screen where row actions are available. */
+  async goToUploadScreen(): Promise<void> {
+    const threeDotsByXpath = this.locators.documentThreeDotsButton.locator.first();
+    if (await threeDotsByXpath.isVisible().catch(() => false)) {
+      return;
+    }
+
+    const uploadScreenTrigger = this.page
+      .getByRole("link", { name: /uploads?|uploaded/i })
+      .or(this.page.getByRole("button", { name: /uploads?|uploaded/i }))
+      .or(this.page.getByRole("tab", { name: /uploads?|uploaded/i }))
+      .or(this.page.getByRole("button", { name: /upload/i }))
+      .or(this.page.getByRole("link", { name: /upload/i }))
+      .first();
+    if (await uploadScreenTrigger.isVisible().catch(() => false)) {
+      await uploadScreenTrigger.click({ force: true });
+      await this.playwrightActionsFactory.waitForSec(1);
+      if (await threeDotsByXpath.isVisible().catch(() => false)) {
+        return;
+      }
+    }
+
+    await this.page.waitForLoadState("domcontentloaded", { timeout: 10000 });
+  }
+
+  /** Uses provided xpath 3-dots locator, deletes first document, and confirms. */
+  async deleteFirstDocumentUsingThreeDots(): Promise<void> {
+    await this.goToUploadScreen();
+    if (await this.locators.firstDocumentRow.locator.isVisible().catch(() => false)) {
+      await this.locators.firstDocumentRow.locator.hover().catch(() => {});
+      await this.playwrightActionsFactory.waitForSec(0.5);
+    }
+
+    const threeDotsByXpath = this.locators.documentThreeDotsButton.locator.first();
+    const threeDotsCount = await this.locators.documentThreeDotsButton.locator.count();
+    if (threeDotsCount === 0) {
+      throw new Error("Three-dots button not found with provided xpath: (//button[contains(@id,'dropdown') and contains(@id,'trigger')])[1]");
+    }
+
+    if (!(await threeDotsByXpath.isVisible().catch(() => false))) {
+      await this.page.mouse.move(300, 300);
+      await this.playwrightActionsFactory.waitForSec(1);
+    }
+    await threeDotsByXpath.click({ force: true });
+    await this.locators.deleteMenuItem.locator.waitFor({ state: "visible", timeout: 10000 });
+    await this.playwrightActionsFactory.click(this.locators.deleteMenuItem);
+    if (await this.locators.confirmDeleteButton.locator.isVisible().catch(() => false)) {
+      await this.playwrightActionsFactory.click(this.locators.confirmDeleteButton);
+    }
+  }
+
+  /** Verifies success toast after document deletion. */
+  async verifyDocumentDeletedToast(): Promise<void> {
+    await this.playwrightVerificationFactory.expectElementExist(this.locators.documentDeletedToast);
+    await expect(this.locators.documentDeletedToast.locator).toBeVisible({ timeout: 15000 });
+  }
+
+  private async isDocumentModuleReady(timeoutMs: number): Promise<boolean> {
+    try {
+      await Promise.race([
+        this.locators.uploadButton.locator.waitFor({ state: "visible", timeout: timeoutMs }),
+        this.locators.fileInput.locator.waitFor({ state: "attached", timeout: timeoutMs }),
+      ]);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  private async waitForDocumentModuleReady(): Promise<void> {
+    if (!(await this.isDocumentModuleReady(15000))) {
+      throw new Error(`Document module did not become ready. Current URL: ${this.page.url()}`);
+    }
+  }
+
+  private isDocumentRoute(url: string): boolean {
+    return /\/documents?(\/|$|\?)/i.test(url);
+  }
+}

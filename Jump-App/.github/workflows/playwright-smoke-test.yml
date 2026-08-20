@@ -1,0 +1,87 @@
+name: Run Playwright Smoke Test Automation
+
+on:
+  push:
+    branches:
+         - main  # Trigger on any push to main branch
+    workflow_dispatch:     
+
+env:
+  IMAGE_TAG: ${{ github.sha }}
+  IMAGE: ${{ secrets.PLAYWRIGHT_SMOKE_DOCKER_IMAGE }}:${{ github.sha }}
+
+jobs:
+  playwright-smoke-test:
+    name: Run Playwright Smoke Test Automation
+    runs-on: gcp-4core16gb-test-auto
+
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: read
+
+    steps:
+      - name: Verify Hardware
+        run: |
+          nproc  # Should show 4 for your custom runner
+          free -h # Should show ~16GB for your custom runner
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud using WIF
+        id: 'auth' 
+        uses: google-github-actions/auth@v2
+        with:
+          create_credentials_file: true
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_WIF_SERVICE_ACCOUNT }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Show active authenticated account
+        run: gcloud auth list
+
+
+      - name: Fetch .env.staging from Secret Manager
+        run: |
+          mkdir -p src/config
+          gcloud secrets versions access latest \
+            --secret="${{ secrets.GCP_STAGING_ENV_SECRET_NAME }}" \
+            --project="${{ secrets.GCP_PROJECT_ID }}" > src/config/.env.staging
+          ls -la src/config/.env.staging
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker australia-southeast1-docker.pkg.dev
+
+      - name: Build Docker Image
+        run: docker build -t playwright-smoke-tests .
+
+      - name: Run Smoke Tests in Docker
+        run: |
+          docker run --ipc=host \
+            --user $(id -u):$(id -g) \
+            -e HOME=/tmp \
+            -e GOOGLE_APPLICATION_CREDENTIALS=/app/gcp-creds.json \
+            -e GOOGLE_CLOUD_PROJECT=${{ secrets.GCP_PROJECT_ID }} \
+            -v ${{ github.workspace }}/src/config/.env.staging:/app/src/config/.env.staging \
+            -v ${{ steps.auth.outputs.credentials_file_path }}:/app/gcp-creds.json:ro \
+            playwright-smoke-tests
+
+      - name: Notify Google Chat
+        if: always()
+        uses: SimonScholz/google-chat-action@main
+        with:
+          webhookUrl: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          jobStatus: ${{ job.status }}
+          title: "Playwright Smoke Test Report"
+          subtitle: "Run ID: ${{ github.run_id }}"
+          additionalSections: |
+            [{
+              "widgets": [{
+                "textParagraph": {
+                  "text": "<b>Status:</b> ${{ job.status }}<br><b>Report URL:</b> <a href='${{ secrets.ALLURE_REPORT_URL }}'>View Allure Report</a>"
+                }
+              }]
+            }]

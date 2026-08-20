@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+
+      <!-- Google Tag Manager -->
+      <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-58DGRH6V');
+      </script>
+      <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="BB0iJgs0ICEcNgojHgUsIx0MdQgYBQQyhHhvhdVtul9yqS_Qre6rMMjt">
+    <link rel="icon" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBzdHlsZT0iZmlsbDpibGFjaztmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MTtzdHJva2Utb3BhY2l0eTowO2ZpbGwtcnVsZTpub256ZXJvOyI+CjxnIHN0eWxlPSJmaWxsOiMwOTA5MEI7Ij4KICA8ZWxsaXBzZSBjeD0iNi4xIiBjeT0iMTAuMzUiIHJ4PSI1IiByeT0iNSIvPgo8L2c+CjxnIHN0eWxlPSJmaWxsOiMwOTA5MEI7Ij4KICA8ZWxsaXBzZSBjeD0iMTIuMjUiIGN5PSI0LjI1IiByeD0iMi41IiByeT0iMi41Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBzdHlsZT0iZmlsbDpibGFjaztmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MTtzdHJva2Utb3BhY2l0eTowO2ZpbGwtcnVsZTpub256ZXJvOyI+CjxnIHN0eWxlPSJmaWxsOiNGRkZGRkY7Ij4KICA8ZWxsaXBzZSBjeD0iNi4xIiBjeT0iMTAuMzUiIHJ4PSI1IiByeT0iNSIvPgo8L2c+CjxnIHN0eWxlPSJmaWxsOiNGRkZGRkY7Ij4KICA8ZWxsaXBzZSBjeD0iMTIuMjUiIGN5PSI0LjI1IiByeD0iMi41IiByeT0iMi41Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/images/branding-2025/favicons/favicon-86d2d6df5f9779174cee017d786a6509.png" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/images/branding-2025/favicons/favicon_inverse-faa1ea8a68d70ba6d4b07c5afa045ff5.png" media="(prefers-color-scheme: dark)">
+    <title data-suffix=" - Jump">
+      Document Vault
+     - Jump</title>
+    <link phx-track-static rel="stylesheet" href="/assets/app-1953809ff46ded0183d13b4cdd173f6d.css">
+    <link phx-track-static rel="stylesheet" href="/assets/block-editor-c09c921b24fd252f1832106658c585d8.css">
+    <script type="text/javascript">
+      window.RUNTIME_CONFIG = {"dev_posthog_send_enabled":false,"dev_posthog_api_key":null,"chaos_monkey_enabled":false};
+    </script>
+
+    <script>
+      // Prevent ask-anything button flicker on page load
+      // This runs synchronously before body renders to hide the button if sidebar is already open
+      (function() {
+        try {
+          var isOpen = localStorage.getItem('ask-anything:sidebar-open') === 'true';
+          if (isOpen) {
+            document.documentElement.classList.add('ask-anything-open');
+          }
+        } catch (e) {
+          // localStorage unavailable, button will show by default
+        }
+      })();
+    </script>
+    <style>
+      /* Hide ask-anything toggle button when sidebar is open (prevents flicker on load) */
+      html.ask-anything-open [data-role="ask-anything-open"] {
+        display: none !important;
+      }
+    </style>
+    <script defer phx-track-static type="text/javascript" src="/assets/app-436db177d04c36031269f94e6de293a5.js">
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js" integrity="sha384-BxpSbjbDhVKwnC1UfcjsNEuMuxg4af5IXOaSi1Iq5rASQ/9a7uslhEXbP9UI/fXo" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous">
+
+    
+    <script>
+  function updateTheme(theme) {
+    if(!theme || theme === "auto") {
+      localStorage.removeItem("theme");
+    } else {
+      localStorage.setItem("theme", theme);
+    }
+
+    const themePref = localStorage.getItem("theme");
+
+    const wantsDarkMode = themePref ?
+      themePref === "dark" :
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    document.documentElement.classList.toggle("dark", wantsDarkMode);
+  }
+
+  const themePref = "auto";
+  updateTheme(themePref);
+
+  window.addEventListener('phx:theme-changed', function ({ detail: {theme} }) {
+    console.log("theme-changed", theme);
+    updateTheme(theme)
+  })
+
+  // In auto mode, listen for changes from the OS.
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    if(!localStorage.getItem("theme")) {
+      updateTheme("auto");
+    }
+  })
+</script>
+  </head>
+  <body class="h-full jump-web bg-surface-content-paper">
+
+
+    <div id="ask-anything-root" data-ask-anything-root phx-update="ignore" data-enabled="true" data-props="{&quot;userId&quot;:&quot;usr_dc39f56ce5df4c16178cd6ad&quot;}">
+    </div>
+    <div id="phx-GKrQ0Qyu52scnsvE" data-phx-main data-phx-session="SFMyNTY.g2gDaAJhBnQAAAAIdwJpZG0AAAAUcGh4LUdLclEwUXl1NTJzY25zdkV3B3Nlc3Npb250AAAAAW0AAAAMX3JlcXVlc3RfdXJsbQAAAAovZG9jdW1lbnRzdwR2aWV3dyJFbGl4aXIuSnVtcFdlYi5Eb2N1bWVudHNMaXZlLkluZGV4dwpwYXJlbnRfcGlkdwNuaWx3BnJvdXRlcncVRWxpeGlyLkp1bXBXZWIuUm91dGVydwhyb290X3BpZHcDbmlsdwlyb290X3ZpZXd3IkVsaXhpci5KdW1wV2ViLkRvY3VtZW50c0xpdmUuSW5kZXh3EWxpdmVfc2Vzc2lvbl9uYW1ldwR1c2VybgYAzd4G2Z0BYgABUYA.HuOzYnNF6i_v1Ht4OR_I7C_w4Y8HRxw1_KDMc0eH00s" data-phx-static="SFMyNTY.g2gDaAJhBnQAAAADdwJpZG0AAAAUcGh4LUdLclEwUXl1NTJzY25zdkV3BWZsYXNodAAAAAB3CmFzc2lnbl9uZXdqbgYAzd4G2Z0BYgABUYA.oMKlGE4rJz_FlEO83aU5VkkY_54O3c3IedinGL6axQU" class="h-full flex flex-col">
+
+
+<div id="user-banner">
+  
+  
+    <div>
+      
+    
+  
+    </div>
+  
+
+</div>
+
+<div id="layout-v2" class="w-dvw h-dvh flex flex-row-reverse justify-start overflow-x-auto">
+  
+  <div id="layout-v2-ask-anything" class="hidden h-full flex-none flex-col overflow-hidden border-l border-secondary bg-primary transition-[width] duration-150 ease-out xl:flex" data-ask-anything-container phx-update="ignore">
+    <div id="ask-anything-panel" data-ask-anything-slot class="flex h-full w-full min-w-0 flex-col overflow-x-hidden">
+    </div>
+  </div>
+
+  <div id="layout-v2-right-side" class="min-w-0 grow relative flex flex-col justify-start">
+    <div id="layout-v2-top-header" class="flex w-full h-20 shrink-0 items-center border-b border-secondary bg-surface-navigation-paper">
+  <div class="flex w-full items-center">
+    
+    <div class="ml-7 flex min-w-0 flex-1 items-center overflow-y-visible">
+      <div class="flex items-center overflow-hidden font-medium text-sm text-secondary">
+  <div class="flex items-center min-w-0 max-w-full">
+    
+      
+      
+
+      <div class="group relative flex items-center min-w-0 flex min-w-10">
+        <div class="contents group">
+  
+  <span class="flex items-center justify-start min-w-0 whitespace-nowrap truncate text-ellipsis max-w-xs">
+    <a href="/documents" data-phx-link="redirect" data-phx-link-state="push" class="pc-button pc-button--clear pc-button--sm flex items-center justify-start !px-1 !min-w-0 overflow-x-clip" data-style="clear">
+  
+  
+
+  
+  
+      
+      <span class="ph-no-capture overflow-x-clip whitespace-nowrap truncate text-ellipsis">
+        Documents
+      </span>
+    
+
+  
+</a>
+  </span>
+  <template id="tooltip-11a62732" style="display: none;">
+  
+    <span class="ph-no-capture">Documents</span>
+  
+</template>
+<span id="tooltip-11a62732-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-11a62732" data-tippy-placement="bottom" data-tippy-theme="jump" data-tippy-delay="600" style="display: none;">
+</span>
+</div>
+      </div>
+
+      
+    
+      
+      
+
+      <div class="group relative flex items-center min-w-0 flex">
+        <div class="contents group">
+  <span class="px-1 text-secondary">/</span>
+  <span class="flex items-center justify-start min-w-0 whitespace-nowrap truncate text-ellipsis max-w-xs">
+    <a href="/documents" data-phx-link="redirect" data-phx-link-state="push" class="pc-button pc-button--clear pc-button--sm flex items-center justify-start !px-1 !min-w-0 overflow-x-clip !text-primary" data-style="clear">
+  
+  
+
+  
+  
+      
+      <span class="ph-no-capture overflow-x-clip whitespace-nowrap truncate text-ellipsis">
+        Document Vault
+      </span>
+    
+
+  
+</a>
+  </span>
+  <template id="tooltip-e1511c09" style="display: none;">
+  
+    <span class="ph-no-capture">Documents / Document Vault</span>
+  
+</template>
+<span id="tooltip-e1511c09-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-e1511c09" data-tippy-placement="bottom" data-tippy-theme="jump" data-tippy-delay="600" style="display: none;">
+</span>
+</div>
+      </div>
+
+      
+    
+  </div>
+</div>
+    </div>
+
+    <div class="ml-auto flex items-center gap-3 pr-7">
+      <div>
+        <div id="meeting_status_v2_header" data-phx-session="SFMyNTY.g2gDaAJhBnQAAAAHdwJpZG0AAAAYbWVldGluZ19zdGF0dXNfdjJfaGVhZGVydwdzZXNzaW9udAAAAAhtAAAACmFjY291bnRfaWRtAAAAHWFjY3RfZTQ3NTRiZjE3Y2ZmNzI0M2UzMzMwNDZjbQAAABVhZG1pbl92aWV3aW5nX2FzX3VzZXJ3BWZhbHNlbQAAABlhbGxvd2VkX2ZlYXR1cmVzX2NvbXB1dGVkdwNuaWxtAAAAC2N1cnJlbnRfdXJpdAAAAAl3BHBvcnRhUHcGc2NoZW1lbQAAAARodHRwdwRwYXRobQAAAAovZG9jdW1lbnRzdwRob3N0bQAAABNzdGFnaW5nLmp1bXBhcHAuZGV2dwVxdWVyeXcDbmlsdwhmcmFnbWVudHcDbmlsdwh1c2VyaW5mb3cDbmlsdwpfX3N0cnVjdF9fdwpFbGl4aXIuVVJJdwlhdXRob3JpdHltAAAAE3N0YWdpbmcuanVtcGFwcC5kZXZtAAAABWVtYWlsbQAAABlxYS1hdXRvbWF0aW9uQGp1bXBhcHAueHl6bQAAAAZtb3VudHN3A25pbG0AAAAOcm9vdF9pbl9oZWFkZXJ3BHRydWVtAAAAB3VzZXJfaWRtAAAAHHVzcl9kYzM5ZjU2Y2U1ZGY0YzE2MTc4Y2Q2YWR3BHZpZXd3IEVsaXhpci5KdW1wV2ViLkNhbGxCb3RTdGF0dXNMaXZldwpwYXJlbnRfcGlkdwNuaWx3BnJvdXRlcncVRWxpeGlyLkp1bXBXZWIuUm91dGVydwhyb290X3BpZHcDbmlsdwlyb290X3ZpZXd3IEVsaXhpci5KdW1wV2ViLkNhbGxCb3RTdGF0dXNMaXZlbgYA0t4G2Z0BYgABUYA.D2V8OmC-6zwx68GwGC5lvSHlJSa8CohpxjylffMQhIk" data-phx-static="SFMyNTY.g2gDaAJhBnQAAAADdwJpZG0AAAAYbWVldGluZ19zdGF0dXNfdjJfaGVhZGVydwVmbGFzaHQAAAAAdwphc3NpZ25fbmV3am4GANLeBtmdAWIAAVGA.XMuJUr93ZHSvK2n8LSj8ggYFPVbgoNVSSwK8Iy5TbGs" data-phx-sticky class="grid place-self-center"><div id="meeting_status_v2_header-record-audio-backend" class="shrink-0">
+  <div id="meeting_status_v2_header-record-audio-backend-record-ui" phx-hook="WebRecorder2Hook" phx-target="1" phx-update="ignore" data-target="meeting_status_v2_header-record-audio-backend" data-web-recorder-version="2" data-can-use-web-recorder data-client-id="3c99cce6-6518-43ce-98d2-688396264e41" data-qa="web-recorder-v2">
+  </div>
+</div>
+
+
+
+</div>
+      </div>
+
+      
+
+      
+        <button class="pc-button pc-button--primary-gradient pc-button--md inline-flex gap-2 border-none pc-button--with-icon" id="ask-anything-open-button" phx-hook="AskAnythingToggleButton" data-role="ask-anything-open" data-style="primary-gradient">
+  
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 pc-button__spinner-icon--md" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true" data-qa="sparkles">
+  <path d="M15.98 1.804a1 1 0 0 0-1.96 0l-.24 1.192a1 1 0 0 1-.784.785l-1.192.238a1 1 0 0 0 0 1.962l1.192.238a1 1 0 0 1 .785.785l.238 1.192a1 1 0 0 0 1.962 0l.238-1.192a1 1 0 0 1 .785-.785l1.192-.238a1 1 0 0 0 0-1.962l-1.192-.238a1 1 0 0 1-.785-.785l-.238-1.192ZM6.949 5.684a1 1 0 0 0-1.898 0l-.683 2.051a1 1 0 0 1-.633.633l-2.051.683a1 1 0 0 0 0 1.898l2.051.684a1 1 0 0 1 .633.632l.683 2.051a1 1 0 0 0 1.898 0l.683-2.051a1 1 0 0 1 .633-.633l2.051-.683a1 1 0 0 0 0-1.898l-2.051-.683a1 1 0 0 1-.633-.633L6.95 5.684ZM13.949 13.684a1 1 0 0 0-1.898 0l-.184.551a1 1 0 0 1-.632.633l-.551.183a1 1 0 0 0 0 1.898l.551.183a1 1 0 0 1 .633.633l.183.551a1 1 0 0 0 1.898 0l.184-.551a1 1 0 0 1 .632-.633l.551-.183a1 1 0 0 0 0-1.898l-.551-.184a1 1 0 0 1-.633-.632l-.183-.551Z"/>
+</svg>
+    
+
+  
+          <span class="hidden md:inline">AI Associate</span>
+        
+  
+</button>
+      
+    </div>
+  </div>
+</div>
+    <main id="layout-v2-main-body" class="grow overflow-y-auto min-w-0 max-w-full flex flex-col">
+  <div id="flash_group" phx-update="stream" class="fixed bottom-0 right-0 z-[99999] w-5/6 max-w-sm m-4 space-y-4 hidden">
+  
+    
+    <div id="error" phx-hook="ClearFlash"></div>
+    
+  
+    
+    <div id="warning" phx-hook="ClearFlash"></div>
+    
+  
+    
+    <div id="success" phx-hook="ClearFlash"></div>
+    
+  
+    
+    <div id="info" phx-hook="ClearFlash"></div>
+    
+  
+</div>
+  <div id="toasts" class="fixed z-[9999] w-5/6 max-w-sm m-4 space-y-4 top-0 left-0 sm:left-1/2 sm:-ml-48 mt-12" phx-update="ignore" phx-hook="ToastsHook" data-timer-length-ms="5000" data-flash="[]">
+</div>
+  <span></span>
+  
+      <div class="px-8 py-7">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="pc-h1 pc-heading--color pc-heading--margin">
+  Document Vault
+</h1>
+    <a href="/documents/wizard/upload" class="pc-button pc-button--secondary pc-button--md pc-button--with-icon" data-style="secondary">
+  
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 pc-button__spinner-icon--md" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true" data-qa="arrow_up_tray">
+  <path d="M9.25 13.25a.75.75 0 0 0 1.5 0V4.636l2.955 3.129a.75.75 0 0 0 1.09-1.03l-4.25-4.5a.75.75 0 0 0-1.09 0l-4.25 4.5a.75.75 0 1 0 1.09 1.03L9.25 4.636v8.614Z"/><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+</svg>
+    
+
+  
+      Upload Document
+    
+  
+</a>
+  </div>
+
+  
+      <div class="flex items-center justify-center py-12">
+        <div class="flex gap-x-2 items-center" data-qa="loading-spinner">
+  <img class="w-8 h-8 icon-disabled" src="/images/branding-2025/jump_logo_icon_animated.svg">
+  <div class="text-secondary">Loading documents...</div>
+</div>
+      </div>
+    
+</div>
+    
+</main>
+
+
+
+
+
+  </div>
+  <div id="layout-v2-left-menu" phx-hook="ExpandableSidebar" data-tippy-hide-when-expanded aria-expanded="true" phx-mounted="[[&quot;ignore_attrs&quot;,{&quot;attrs&quot;:[&quot;aria-expanded&quot;]}]]" aria-controls="layout-v2-left-menu-content" class="flex flex-col min-h-0 bg-surface-navigation-paper border-r border-secondary flex-shrink-0 relative group/sidebar">
+  
+  <button class="pc-button pc-button--clear pc-button--sm absolute top-9 -right-3.5 z-50 size-7 !bg-surface-modal-paper opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-200 hover:!bg-interactive-background-neutral-hover" aria-label="Toggle sidebar size" data-style="clear" data-expand-button>
+  
+  
+
+  
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-4 h-4 transition-transform duration-300 sidebar-open:rotate-180" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true" data-qa="chevron_double_right">
+  <path fill-rule="evenodd" d="M15.28 9.47a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.69 10 9.97 6.28a.75.75 0 0 1 1.06-1.06l4.25 4.25ZM6.03 5.22l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L8.69 10 4.97 6.28a.75.75 0 0 1 1.06-1.06Z" clip-rule="evenodd"/>
+</svg>
+  
+  
+</button>
+
+  <div id="left-menu-logo" phx-update="ignore" class="flex items-center justify-center sidebar-open:justify-start w-full h-20 sidebar-open:px-5 px-3">
+  <a href="/" data-phx-link="redirect" data-phx-link-state="push" class="flex items-center justify-center gap-3 h-full">
+    <img src="/images/branding-2025/jump_logo_icon-8073e4d39d5965f1a401fc9cd65808ad.svg" class="sidebar-closed:block sidebar-open:hidden w-8 h-8 flex-shrink-0 object-contain dark:invert" alt="Jump">
+    <img src="/images/branding-2025/jump_logo.svg" class="sidebar-closed:hidden sidebar-open:block w-[110px] h-10 flex-shrink-0 object-contain sidebar-open:translate-y-1 dark:invert">
+  </a>
+</div>
+
+  <nav id="layout-v2-left-menu-content" phx-hook="HoverMenuCoordinator" data-hover-menu-body-class="hover-menu-open" data-tippy-suppress-body-class="hover-menu-open" class="flex flex-1 flex-col min-h-0 bg-surface-navigation-paper sidebar-scroll w-fit sidebar-scroll-refresh">
+    <div data-sidebar-width-target class="flex flex-1 flex-col min-h-full transition-all duration-300 ease-in-out min-w-[218px] max-w-[218px]">
+      <ul role="list" class="flex flex-1 flex-col w-full px-3 min-h-full">
+        <div class="flex flex-col w-full gap-0.5">
+  <div class="mb-1.5 flex justify-center sidebar-open:justify-start">
+    <div id="new_meeting_button" data-phx-session="SFMyNTY.g2gDaAJhBnQAAAAHdwJpZG0AAAASbmV3X21lZXRpbmdfYnV0dG9udwdzZXNzaW9udAAAAAZtAAAACmFjY291bnRfaWRtAAAAHWFjY3RfZTQ3NTRiZjE3Y2ZmNzI0M2UzMzMwNDZjbQAAABVhZG1pbl92aWV3aW5nX2FzX3VzZXJ3BWZhbHNlbQAAABlhbGxvd2VkX2ZlYXR1cmVzX2NvbXB1dGVkdwNuaWxtAAAAC2N1cnJlbnRfdXJpdAAAAAl3BHBvcnRhUHcGc2NoZW1lbQAAAARodHRwdwRwYXRobQAAAAovZG9jdW1lbnRzdwRob3N0bQAAABNzdGFnaW5nLmp1bXBhcHAuZGV2dwVxdWVyeXcDbmlsdwhmcmFnbWVudHcDbmlsdwh1c2VyaW5mb3cDbmlsdwpfX3N0cnVjdF9fdwpFbGl4aXIuVVJJdwlhdXRob3JpdHltAAAAE3N0YWdpbmcuanVtcGFwcC5kZXZtAAAAB3VzZXJfaWRtAAAAHHVzcl9kYzM5ZjU2Y2U1ZGY0YzE2MTc4Y2Q2YWRtAAAADXdyYXBwZXJfY2xhc3NsAAAAAm0AAAAEbXgtMG0AAAAGdy1mdWxsancEdmlld3cjRWxpeGlyLkp1bXBXZWIuTmV3TWVldGluZ0J1dHRvbkxpdmV3CnBhcmVudF9waWR3A25pbHcGcm91dGVydxVFbGl4aXIuSnVtcFdlYi5Sb3V0ZXJ3CHJvb3RfcGlkdwNuaWx3CXJvb3Rfdmlld3cjRWxpeGlyLkp1bXBXZWIuTmV3TWVldGluZ0J1dHRvbkxpdmVuBgDf3gbZnQFiAAFRgA.-lRqSa-7MqUPTReIvf3VMG6dFc7z74FmC-2OUu0xdbU" data-phx-static="SFMyNTY.g2gDaAJhBnQAAAADdwJpZG0AAAASbmV3X21lZXRpbmdfYnV0dG9udwVmbGFzaHQAAAAAdwphc3NpZ25fbmV3am4GAN_eBtmdAWIAAVGA.qCWvBQItIyrb3iMVJWTDtl-k5FlmIA9uTVPYn5hDKBE" data-phx-sticky class="w-full place-items-center"><div class="mx-0 w-full" id="new_meeting_button-new-meeting-wrapper">
+  
+  
+    
+  
+  
+      
+    <div id="new-meeting-menu" class="relative block">
+  <div id="new-meeting-menu-trigger" phx-click="[[&quot;toggle&quot;,{&quot;ins&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-200&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;]],&quot;to&quot;:&quot;#new-meeting-menu-content&quot;,&quot;outs&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-in&quot;,&quot;duration-150&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;]]}]]">
+    
+    <div class="pc-button pc-button--primary pc-button--md group relative flex items-center justify-center bg-success-inverse rounded-md text-primary-inverse cursor-pointer pc-button--with-icon" aria-label="Create new meeting" data-style="primary">
+  
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 pc-button__spinner-icon--md" data-qa="calendar_plus">
+  <!-- Calendar base -->
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M4 1.75C4 1.33579 4.33579 1 4.75 1C5.16421 1 5.5 1.33579 5.5 1.75V3H10.5V1.75C10.5 1.33579 10.8358 1 11.25 1C11.6642 1 12 1.33579 12 1.75V3C13.1046 3 14 3.89543 14 5V12C14 13.1046 13.1046 14 12 14H4C2.89543 14 2 13.1046 2 12V5C2 3.89543 2.89543 3 4 3V1.75ZM4.5 6C3.94772 6 3.5 6.44772 3.5 7V11.5C3.5 12.0523 3.94772 12.5 4.5 12.5H11.5C12.0523 12.5 12.5 12.0523 12.5 11.5V7C12.5 6.44772 12.0523 6 11.5 6H4.5Z" fill="currentColor"></path>
+  <!-- Plus sign -->
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8 7.5C8.27614 7.5 8.5 7.72386 8.5 8V8.5H9C9.27614 8.5 9.5 8.72386 9.5 9C9.5 9.27614 9.27614 9.5 9 9.5H8.5V10C8.5 10.2761 8.27614 10.5 8 10.5C7.72386 10.5 7.5 10.2761 7.5 10V9.5H7C6.72386 9.5 6.5 9.27614 6.5 9C6.5 8.72386 6.72386 8.5 7 8.5H7.5V8C7.5 7.72386 7.72386 7.5 8 7.5Z" fill="currentColor"></path>
+</svg>
+    
+
+  
+  <span class="sidebar-closed:sr-only">
+    New Meeting
+  </span>
+  <template id="tooltip-ffa88630" style="display: none;">
+  
+    New meeting
+  
+</template>
+<span id="tooltip-ffa88630-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-ffa88630" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="600" style="display: none;">
+</span>
+
+  
+</div>
+  
+  </div>
+
+  <div id="new-meeting-menu-content" class="z-[9999] hidden bg-surface-modal-paper border border-secondary rounded-lg shadow-dropdown !p-0" phx-hook="FloatingHook" popover="manual" data-reference-id="new-meeting-menu-trigger" data-placement="bottom-start" data-strategy="fixed" data-offset="8" data-width-padding="0" data-x-offset="0" data-y-offset="0" phx-click-away="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#new-meeting-menu-content&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-in&quot;,&quot;duration-150&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;]]}]]">
+  
+    
+    <div class="w-72 !mt-0 !ml-0 z-[100] p-1 space-y-1 -my-1">
+      
+
+<a href="/meetings/new?capture_now=true" data-phx-link="redirect" data-phx-link-state="push" class="flex items-center gap-2 p-2 text-sm hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed rounded-md [&amp;[disabled]]:text-disabled [&amp;[disabled]]:pointer-events-none pc-dropdown__menu-item " role="menuitem" phx-click="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#new-meeting-menu-content&quot;}]]" data-disable-when-recording>
+  
+  
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="microphone">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/>
+</svg>
+  
+  <div class="flex-1 flex flex-col ">
+    <span class="text-left text-primary font-medium text-base leading-5">
+      Capture meeting now
+    </span>
+    <span class="text-sm leading-4.5 text-secondary">In-person meeting or dictation</span>
+  </div>
+  
+  
+    
+  
+
+</a>
+      
+
+<a href="/meetings/new" data-phx-link="redirect" data-phx-link-state="push" class="flex items-center gap-2 p-2 text-sm hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed rounded-md [&amp;[disabled]]:text-disabled [&amp;[disabled]]:pointer-events-none pc-dropdown__menu-item " role="menuitem" phx-click="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#new-meeting-menu-content&quot;}]]">
+  
+  
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="arrow_up_tray">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+</svg>
+  
+  <div class="flex-1 flex flex-col ">
+    <span class="text-left text-primary font-medium text-base leading-5">
+      Upload meeting audio
+    </span>
+    <span class="text-sm leading-4.5 text-secondary">Use for existing recordings</span>
+  </div>
+  
+  
+    
+  
+
+</a>
+      
+  
+    
+  
+  
+      
+        
+
+<a href="/meetings/send-to-meeting" data-phx-link="redirect" data-phx-link-state="push" class="flex items-center gap-2 p-2 text-sm hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed rounded-md [&amp;[disabled]]:text-disabled [&amp;[disabled]]:pointer-events-none pc-dropdown__menu-item " role="menuitem" phx-click="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#new-meeting-menu-content&quot;}]]">
+  
+  
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="arrow_right_end_on_rectangle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"/>
+</svg>
+  
+  <div class="flex-1 flex flex-col ">
+    <span class="text-left text-primary font-medium text-base leading-5">
+      Send notetaker to meeting
+    </span>
+    <span class="text-sm leading-4.5 text-secondary">Add meeting URL</span>
+  </div>
+  
+  
+    
+  
+
+</a>
+      
+  
+
+
+  
+
+      
+  
+    
+    
+      <div class="flex w-full h-full justify-center items-center transition my-5 ">
+        <div class="flex gap-x-2 items-center" data-qa="loading-spinner">
+  <img class="w-8 h-8 icon-disabled" src="/images/branding-2025/jump_logo_icon_animated.svg">
+  <div class="text-secondary"></div>
+</div>
+      </div>
+    
+  
+  
+
+      
+
+<a href="/meetings/?bw_action=create&amp;bw_modal_id=booking-window-form" data-phx-link="redirect" data-phx-link-state="push" class="flex items-center gap-2 p-2 text-sm hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed rounded-md [&amp;[disabled]]:text-disabled [&amp;[disabled]]:pointer-events-none pc-dropdown__menu-item " role="menuitem" phx-click="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#new-meeting-menu-content&quot;}]]">
+  
+  
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="calendar_date_range">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z"/>
+</svg>
+  
+  <div class="flex-1 flex flex-col ">
+    <span class="text-left text-primary font-medium text-base leading-5">
+      Create a booking window
+    </span>
+    <span class="text-sm leading-4.5 text-secondary">Choose times clients can book appointments with you</span>
+  </div>
+  
+  
+    
+  
+
+</a>
+    </div>
+  
+  
+</div>
+</div>
+  
+  
+
+
+  
+
+  
+</div></div>
+  </div>
+  <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  
+
+<div class="!p-0 [&amp;&gt;div&gt;span]:!hidden group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Search">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+  <div class="flex grow items-center h-full">
+  <button class="pc-button pc-button--clear pc-button--md !p-2 !border-secondary w-full place-content-start" id="header-search-trigger" phx-hook="TriggerOnKey" phx-click="[[&quot;show&quot;,{&quot;to&quot;:&quot;#header-search-content&quot;}],[&quot;show&quot;,{&quot;time&quot;:300,&quot;to&quot;:&quot;#header-search-bg&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-300&quot;],[&quot;opacity-0&quot;],[&quot;opacity-100&quot;]]}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#header-search-content&quot;}]]" data-style="clear" data-key="k" data-modifier="CmdOrCtrl">
+  
+  
+
+  
+    <div class="flex items-center gap-2 grow">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 text-secondary size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="magnifying_glass">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+</svg>
+      <span class="text-secondary text-left sidebar-closed:hidden grow">Search&hellip;</span>
+      <span class="text-sm bg-secondary text-primary px-1 rounded-md sidebar-closed:hidden">
+        Ctrl+K
+      </span>
+    </div>
+  
+  
+</button>
+
+  <form phx-target="3" phx-submit="search" phx-change="search" id="header-search-form">
+  
+  
+  
+    <div class="bg-modal-backdrop-light fixed hidden inset-0 z-[100]" id="header-search-bg" phx-click="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#header-search-content&quot;}],[&quot;hide&quot;,{&quot;time&quot;:300,&quot;to&quot;:&quot;#header-search-bg&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-300&quot;],[&quot;opacity-100&quot;],[&quot;opacity-0&quot;]]}],[&quot;push&quot;,{&quot;value&quot;:{&quot;query&quot;:&quot;&quot;},&quot;target&quot;:3,&quot;event&quot;:&quot;search&quot;}]]" phx-key="escape" phx-window-keydown="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#header-search-content&quot;}],[&quot;hide&quot;,{&quot;time&quot;:300,&quot;to&quot;:&quot;#header-search-bg&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-300&quot;],[&quot;opacity-100&quot;],[&quot;opacity-0&quot;]]}],[&quot;push&quot;,{&quot;value&quot;:{&quot;query&quot;:&quot;&quot;},&quot;target&quot;:3,&quot;event&quot;:&quot;search&quot;}]]"></div>
+
+    <div class="bg-surface-modal-paper border-0 fixed h-auto hidden left-1/2 max-w-full rounded-lg shadow-lg top-[15%] -translate-x-1/2 w-[720px] z-[100]" id="header-search-content">
+      <div class="flex items-center self-stretch w-full px-5 py-2.5 border-b border-secondary justify-start">
+        <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 text-secondary w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="magnifying_glass">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+</svg>
+
+        
+  <label for="header-search-combobox" class="pc-label sr-only">
+    
+  Global search
+
+  </label>
+
+
+        <input id="header-search-combobox" name="query" value="" type="text" class="border-none flex-grow text-base pl-2 bg-transparent focus:ring-0" placeholder="Search..." role="combobox" aria-autocomplete="list" aria-controls="header-search-listbox" aria-expanded="true" aria-haspopup="listbox">
+      </div>
+
+      <div class="max-h-[60vh] overflow-y-auto" data-combobox-id="header-search-combobox" id="header-search-listbox" role="listbox" phx-hook="SelectListBox" data-qa="global-search-results">
+  
+        
+          <div class="self-stretch px-2 pt-1 pb-3 flex flex-col justify-start items-start overflow-hidden">
+  <div class="self-stretch px-2 pt-4 pb-1 inline-flex justify-start items-center gap-1.5">
+    <div class="flex-1 flex justify-start items-center gap-1">
+      <div class="self-stretch pl-1 pr-7 inline-flex flex-col justify-start items-start">
+        <div class="self-stretch inline-flex justify-start items-start gap-2">
+          <div class="text-secondary text-sm">Search across:</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="self-stretch p-2 inline-flex justify-start items-center gap-1">
+  <div class="self-stretch inline-flex justify-start items-center gap-1">
+    <div class="inline-flex flex-col justify-start items-start">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mt-0.5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="user_circle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+</svg>
+    </div>
+    <div class="self-stretch pl-1 inline-flex flex-col justify-start items-start">
+      <div class="self-stretch inline-flex justify-start items-start gap-2">
+        <div class="font-medium">Contacts</div>
+      </div>
+      <div class="text-secondary text-sm">Search by name or email</div>
+    </div>
+  </div>
+</div>
+
+  <div class="self-stretch p-2 inline-flex justify-start items-center gap-1">
+  <div class="self-stretch inline-flex justify-start items-center gap-1">
+    <div class="inline-flex flex-col justify-start items-start">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mt-0.5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="calendar_days">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
+</svg>
+    </div>
+    <div class="self-stretch pl-1 inline-flex flex-col justify-start items-start">
+      <div class="self-stretch inline-flex justify-start items-start gap-2">
+        <div class="font-medium">Meetings</div>
+      </div>
+      <div class="text-secondary text-sm">Search by title</div>
+    </div>
+  </div>
+</div>
+</div>
+        
+      
+</div>
+
+      <div class="w-full self-stretch p-4 border-t border-secondary inline-flex flex-col justify-center items-end gap-3 overflow-hidden rounded-b-lg">
+  <div class="self-stretch inline-flex justify-start items-start gap-4 text-sm leading-[18px] text-secondary">
+    <div class="flex justify-center items-center">
+      <div class="-mb-1">⏎</div>
+      <div class="pl-1 justify-center font-['TT_Hoves_Pro'] leading-[18px]">
+        to view search results
+      </div>
+    </div>
+    <div class="justify-center font-['TT_Hoves_Pro']">
+      ↑↓ to select
+    </div>
+  </div>
+</div>
+    </div>
+  
+</form>
+</div>
+
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Search
+      </span>
+    </div>
+    <span class="block sr-only">Search</span>
+  
+</div>
+  <template id="tooltip-5a538f60" style="display: none;">
+  
+    Search
+  
+</template>
+<span id="tooltip-5a538f60-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-5a538f60" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+  
+  <li class="mt-1.5 text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  <a href="/getting-started" data-phx-link="redirect" data-phx-link-state="push" class="!p-0.5 group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Getting started">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+    <div class="relative flex-shrink-0">
+      <div class="relative flex items-center justify-center" style="width: 32px; height: 32px;">
+  <!-- Background circle with dashed appearance -->
+  <svg width="32" height="32" class="absolute transform rotate-90 scale-x-[-1]" viewBox="0 0 32 32">
+    <circle cx="16.0" cy="16.0" r="15.0" stroke="#fed7aa" stroke-width="2" fill="transparent" stroke-dasharray="3 2" opacity="0.5"></circle>
+    <!-- Progress circle -->
+    <circle cx="16.0" cy="16.0" r="15.0" stroke="#ea580c" stroke-width="2" fill="transparent" stroke-dasharray="94.24777960769379" stroke-dashoffset="63.14601233715483" stroke-linecap="round" class="transition-all duration-300 ease-in-out"></circle>
+  </svg>
+  <!-- Percentage text -->
+  <div class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-primary">
+    33%
+  </div>
+</div>
+      
+        <div class="absolute -top-1 -right-1 h-4 bg-danger-inverse rounded-full flex items-center justify-center px-1" style="min-width: 17px;">
+          <div class="text-primary-inverse text-xs font-semibold">
+            16
+          </div>
+        </div>
+      
+    </div>
+  
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Getting started
+      </span>
+    </div>
+    <span class="block sr-only">Getting started</span>
+  
+</a>
+
+
+  <template id="tooltip-126fba32" style="display: none;">
+  
+    Getting started
+  
+</template>
+<span id="tooltip-126fba32-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-126fba32" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+
+  <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  <a href="/" data-phx-link="redirect" data-phx-link-state="push" class="group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Home">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="home">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+</svg>
+
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Home
+      </span>
+    </div>
+    <span class="block sr-only">Home</span>
+  
+</a>
+
+
+  <template id="tooltip-274aac64" style="display: none;">
+  
+    Home
+  
+</template>
+<span id="tooltip-274aac64-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-274aac64" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+  
+<div id="meetings-nav-menu" class="relative inline-block">
+  <div id="meetings-nav-menu-trigger">
+    
+    <div data-hover-menu-trigger="true" data-hover-menu-content-id="meetings-nav-menu-content" id="meetings-nav-link" phx-hook="RememberTabsLink" data-storage-key="meetings_filter" data-param-name="filter" data-default-value="upcoming">
+      <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  <a href="/meetings" data-phx-link="redirect" data-phx-link-state="push" class="group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Meetings">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+        <div class="relative flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="calendar_date_range">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z"/>
+</svg>
+          
+        </div>
+      
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Meetings
+      </span>
+    </div>
+    <span class="block sr-only">Meetings</span>
+  
+</a>
+
+
+  <template id="tooltip-4f68a5bd" style="display: none;">
+  
+    Meetings
+  
+</template>
+<span id="tooltip-4f68a5bd-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-4f68a5bd" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+    </div>
+  
+  </div>
+
+  <div id="meetings-nav-menu-content" class="z-[9999] hidden bg-surface-modal-paper border border-secondary rounded-lg shadow-dropdown relative before:absolute before:content-[&#39;&#39;] before:top-0 before:bottom-0 before:-left-3 before:w-3 before:bg-transparent before:pointer-events-auto !p-0" phx-hook="FloatingHook" popover="manual" data-reference-id="meetings-nav-menu-trigger" data-placement="right-start" data-strategy="fixed" data-offset="8" data-width-padding="0" data-x-offset="0" data-y-offset="0" data-trigger="hover" data-float-offset="{&quot;mainAxis&quot;:8,&quot;crossAxis&quot;:-56,&quot;alignmentAxis&quot;:null}" data-hover-menu-body-class="hover-menu-open" data-hover-menu-scope="meetings-nav-menu">
+  
+    
+    <div class="flex flex-col gap-y-2 min-w-[320px] max-w-[320px] py-2">
+  <div class="font-semibold text-primary pl-5 pr-2 py-2 border-b border-secondary">
+    Meetings
+  </div>
+  <div class="px-2">
+    
+    <a href="/meetings?filter=upcoming&amp;view=list" data-phx-link="redirect" data-phx-link-state="push" class="block py-2 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-start justify-between px-4">
+  <div>
+    <div class="text-base">Upcoming</div>
+    <div class="text-sm text-secondary">Scheduled meetings</div>
+  </div>
+  
+</a>
+    <a href="/meetings?filter=all&amp;view=list" data-phx-link="redirect" data-phx-link-state="push" class="block py-2 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-start justify-between px-4">
+  <div>
+    <div class="text-base">All past</div>
+    <div class="text-sm text-secondary">All completed meetings</div>
+  </div>
+  
+</a>
+    <a href="/meetings?filter=processed_only&amp;view=list" data-phx-link="redirect" data-phx-link-state="push" class="block py-2 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-start justify-between px-4">
+  <div>
+    <div class="text-base">AI-Processed</div>
+    <div class="text-sm text-secondary">Meetings that Jump has processed with automations</div>
+  </div>
+  
+</a>
+    <a href="/meetings?filter=outstanding&amp;view=list" data-phx-link="redirect" data-phx-link-state="push" class="block py-2 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-start justify-between px-4">
+  <div>
+    <div class="text-base">Needs action</div>
+    <div class="text-sm text-secondary">Meetings where additional actions need to be taken, like syncing to CRM or sending a follow-up email.</div>
+  </div>
+  
+</a>
+  </div>
+</div>
+  
+  
+</div>
+</div>
+  <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  <a href="/contacts" data-phx-link="redirect" data-phx-link-state="push" class="group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Contacts">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="users">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+</svg>
+
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Contacts
+      </span>
+    </div>
+    <span class="block sr-only">Contacts</span>
+  
+</a>
+
+
+  <template id="tooltip-bb688023" style="display: none;">
+  
+    Contacts
+  
+</template>
+<span id="tooltip-bb688023-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-bb688023" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+  
+  <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  <a href="/documents" data-phx-link="redirect" data-phx-link-state="push" class="group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start bg-interactive-background-neutral-current text-primary" aria-label="Documents">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" data-qa="rectangle_stack">
+  <path d="M5.566 4.657A4.505 4.505 0 0 1 6.75 4.5h10.5c.41 0 .806.055 1.183.157A3 3 0 0 0 15.75 3h-7.5a3 3 0 0 0-2.684 1.657ZM2.25 12a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3v-6ZM5.25 7.5c-.41 0-.806.055-1.184.157A3 3 0 0 1 6.75 6h10.5a3 3 0 0 1 2.683 1.657A4.505 4.505 0 0 0 18.75 7.5H5.25Z"/>
+</svg>
+
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Documents
+      </span>
+    </div>
+    <span class="block sr-only">Documents</span>
+  
+</a>
+
+
+  <template id="tooltip-2b71a83c" style="display: none;">
+  
+    Documents
+  
+</template>
+<span id="tooltip-2b71a83c-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-2b71a83c" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+  
+  
+  <div id="actions-nav-menu" class="relative inline-block">
+  <div id="actions-nav-menu-trigger">
+    
+      <div data-hover-menu-trigger="true" data-hover-menu-content-id="actions-nav-menu-content">
+        <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  <a href="/tasks" data-phx-link="redirect" data-phx-link-state="push" class="group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Actions">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 flex-shrink-0" data-qa="square_check_stack">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6C3 4.34315 4.34315 3 6 3H14.25C15.9069 3 17.25 4.34315 17.25 6V7.5H18C19.6569 7.5 21 8.84315 21 10.5V18C21 19.6569 19.6569 21 18 21H10.5C8.84315 21 7.5 19.6569 7.5 18V17.25H6C4.34315 17.25 3 15.9069 3 14.25V6ZM7.5 15.75V10.5C7.5 8.84315 8.84315 7.5 10.5 7.5H15.75V6C15.75 5.17157 15.0784 4.5 14.25 4.5H6C5.17157 4.5 4.5 5.17157 4.5 6V14.25C4.5 15.0784 5.17157 15.75 6 15.75H7.5ZM10.5 9C9.67157 9 9 9.67157 9 10.5V18C9 18.8284 9.67157 19.5 10.5 19.5H18C18.8284 19.5 19.5 18.8284 19.5 18V10.5C19.5 9.67157 18.8284 9 18 9H10.5ZM17.2185 11.9143C17.542 12.1731 17.5944 12.6451 17.3357 12.9685L14.3357 16.7185C14.2024 16.8851 14.0045 16.9871 13.7915 16.9989C13.5785 17.0106 13.3705 16.9312 13.2197 16.7803L11.7197 15.2803C11.4268 14.9874 11.4268 14.5126 11.7197 14.2197C12.0126 13.9268 12.4874 13.9268 12.7803 14.2197L13.6878 15.1272L16.1643 12.0315C16.4231 11.708 16.8951 11.6556 17.2185 11.9143Z" fill="currentColor"></path>
+</svg>
+        
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Actions
+      </span>
+    </div>
+    <span class="block sr-only">Actions</span>
+  
+</a>
+
+
+  <template id="tooltip-6ea355b1" style="display: none;">
+  
+    Actions
+  
+</template>
+<span id="tooltip-6ea355b1-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-6ea355b1" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+      </div>
+    
+  </div>
+
+  <div id="actions-nav-menu-content" class="z-[9999] hidden bg-surface-modal-paper border border-secondary rounded-lg shadow-dropdown relative before:absolute before:content-[&#39;&#39;] before:top-0 before:bottom-0 before:-left-3 before:w-3 before:bg-transparent before:pointer-events-auto !p-0" phx-hook="FloatingHook" popover="manual" data-reference-id="actions-nav-menu-trigger" data-placement="right-start" data-strategy="fixed" data-offset="8" data-width-padding="0" data-x-offset="0" data-y-offset="0" data-trigger="hover" data-float-offset="{&quot;mainAxis&quot;:8,&quot;crossAxis&quot;:-56,&quot;alignmentAxis&quot;:null}" data-hover-menu-body-class="hover-menu-open" data-hover-menu-scope="actions-nav-menu">
+  
+    
+      <div class="flex flex-col gap-y-2 min-w-[320px] max-w-[320px] py-2">
+  <div class="font-semibold text-primary pl-5 pr-2 py-2 border-b border-secondary">
+    Action items
+  </div>
+  <div class="px-2">
+    <a href="/tasks?kind=send_message" data-phx-link="redirect" data-phx-link-state="push" class="block py-2 px-4 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-center justify-between">
+  <span class="text-base">Recap emails</span>
+  
+</a>
+    <a href="/tasks?kind=create_record" data-phx-link="redirect" data-phx-link-state="push" class="block py-2 px-4 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-center justify-between">
+  <span class="text-base">Notes &amp; CRM</span>
+  <div class="relative group/icon">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-4 h-4 text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="information_circle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+</svg>
+    <div class="absolute left-6 top-1/2 -translate-y-1/2 bg-primary-inverse dark:bg-surface-modal-paper text-primary-inverse rounded px-2 py-1 text-sm font-medium opacity-0 group-hover/icon:opacity-100 transition-opacity duration-0 group-hover/icon:delay-[600ms] pointer-events-none z-50 w-[240px]">
+      Tasks that Jump creates after every meeting, like syncing to CRM.
+    </div>
+  </div>
+</a>
+    <a href="/tasks?kind=task" data-phx-link="redirect" data-phx-link-state="push" class="block py-2 px-4 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-center justify-between">
+  <span class="text-base">Follow-ups</span>
+  <div class="relative group/icon">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-4 h-4 text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="information_circle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+</svg>
+    <div class="absolute left-6 top-1/2 -translate-y-1/2 bg-primary-inverse dark:bg-surface-modal-paper text-primary-inverse rounded px-2 py-1 text-sm font-medium opacity-0 group-hover/icon:opacity-100 transition-opacity duration-0 group-hover/icon:delay-[600ms] pointer-events-none z-50 w-[240px]">
+      Client-specific tasks that are based on conversations in Jump.
+    </div>
+  </div>
+</a>
+  </div>
+</div>
+    
+  
+</div>
+</div>
+
+  <div id="insights-nav-menu" class="relative inline-block">
+  <div id="insights-nav-menu-trigger">
+    
+    <div data-hover-menu-trigger="true" data-hover-menu-content-id="insights-nav-menu-content" id="insights-nav-link">
+      <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  <a href="/insights" data-phx-link="redirect" data-phx-link-state="push" class="group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Insights">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+        <div class="relative flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="light_bulb">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/>
+</svg>
+        </div>
+      
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Insights
+      </span>
+    </div>
+    <span class="block sr-only">Insights</span>
+  
+</a>
+
+
+  <template id="tooltip-d75cf894" style="display: none;">
+  
+    Insights
+  
+</template>
+<span id="tooltip-d75cf894-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-d75cf894" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+    </div>
+  
+  </div>
+
+  <div id="insights-nav-menu-content" class="z-[9999] hidden bg-surface-modal-paper border border-secondary rounded-lg shadow-dropdown relative before:absolute before:content-[&#39;&#39;] before:top-0 before:bottom-0 before:-left-3 before:w-3 before:bg-transparent before:pointer-events-auto !p-0" phx-hook="FloatingHook" popover="manual" data-reference-id="insights-nav-menu-trigger" data-placement="right" data-strategy="fixed" data-offset="8" data-width-padding="0" data-x-offset="0" data-y-offset="0" data-trigger="hover" data-float-offset="{&quot;mainAxis&quot;:8,&quot;crossAxis&quot;:0,&quot;alignmentAxis&quot;:null}" data-hover-menu-body-class="hover-menu-open" data-hover-menu-scope="insights-nav-menu">
+  
+    
+    <div class="flex flex-col gap-y-2 min-w-[320px] max-w-[320px] py-2">
+  <div class="font-semibold text-primary pl-5 pr-2 py-2 border-b border-secondary">
+    Insights
+  </div>
+  <div class="px-2">
+    <a href="/insights/dashboards" data-phx-link="patch" data-phx-link-state="push" class="block py-2 text-primary hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled transition-colors rounded-md flex items-start justify-between px-4">
+  <div>
+    <div class="text-base">Dashboards</div>
+    <div class="text-sm text-secondary">Firm-wide view of growth signals, advisor activity, and client sentiment.</div>
+  </div>
+  
+</a>
+    
+    
+    
+    
+    
+  </div>
+</div>
+  
+  
+</div>
+</div>
+  <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  
+<a href="/ai-associate" class="group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="AI Associate">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="sparkles">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"/>
+</svg>
+
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        AI Associate
+      </span>
+    </div>
+    <span class="block sr-only">AI Associate</span>
+  
+</a>
+
+  <template id="tooltip-3490f781" style="display: none;">
+  
+    AI Associate
+  
+</template>
+<span id="tooltip-3490f781-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-3490f781" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+</div>
+        <div class="grow"></div>
+        <div class="flex flex-col w-full space-y-0.5 pb-6">
+  <div id="help-menu" class="relative inline-block">
+  <div id="help-menu-trigger" phx-click="[[&quot;toggle&quot;,{&quot;ins&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-200&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;]],&quot;to&quot;:&quot;#help-menu-content&quot;,&quot;outs&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-in&quot;,&quot;duration-150&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;]]}]]">
+    
+    <div>
+      <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  
+
+<div class="cursor-pointer group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Help">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+        <div id="intercom-badge-hook" phx-hook="IntercomBadge" phx-update="ignore" data-migration-pending class="relative flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="question_mark_circle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
+</svg>
+          <div data-intercom-badge class="hidden absolute -top-1.5 -right-2 h-4 bg-danger-inverse rounded-full flex items-center justify-center px-1 text-primary-inverse text-[10px] font-semibold leading-none min-w-4"></div>
+        </div>
+      
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Help
+      </span>
+    </div>
+    <span class="block sr-only">Help</span>
+  
+</div>
+  <template id="tooltip-e8756975" style="display: none;">
+  
+    Help
+  
+</template>
+<span id="tooltip-e8756975-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-e8756975" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+      
+    </div>
+  
+  </div>
+
+  <div id="help-menu-content" class="z-[9999] hidden bg-surface-modal-paper border border-secondary rounded-lg shadow-dropdown !p-0" phx-hook="FloatingHook" popover="manual" data-reference-id="help-menu-trigger" data-placement="right-end" data-strategy="fixed" data-offset="8" data-width-padding="0" data-x-offset="0" data-y-offset="0" phx-click-away="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#help-menu-content&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-in&quot;,&quot;duration-150&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;]]}]]">
+  
+    
+    <div class="flex flex-col gap-y-2 min-w-[320px] max-w-[400px] py-3">
+  <div class="px-2">
+    <a href="https://help.jumpapp.com" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="book_open">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
+</svg>
+      <span class="text-base">Help center</span>
+    </a>
+    <a href="#" type="button" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3 cursor-pointer" onclick="if(window.Intercom) Intercom(&#39;show&#39;)">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="chat_bubble_left_right">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
+</svg>
+      <span class="text-base">Chat with support</span>
+      <div class="ml-auto">
+        <div data-intercom-dot class="hidden w-2.5 h-2.5 rounded-full bg-danger-inverse"></div>
+      </div>
+    </a>
+    <a href="/features" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3 relative" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="megaphone">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/>
+</svg>
+      <span class="text-base">Product updates</span>
+      
+    </a>
+    <a href="/feedback" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="plus">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+</svg>
+      <span class="text-base">Request a feature</span>
+    </a>
+    <a href="/getting-started" data-phx-link="redirect" data-phx-link-state="push" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="information_circle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+</svg>
+      <span class="text-base">Getting started</span>
+    </a>
+  </div>
+</div>
+<div id="help-nav-menu" data-role="help-nav-menu-menu" class="bottom-0 flex flex-col absolute left-full bg-surface-modal-paper rounded-lg shadow-md gap-y-2 ml-2 min-w-[320px] z-50 before:absolute before:content-[&#39;&#39;] before:h-full before:w-2 before:-left-2 py-3 hidden group-[.menu-open]/nav-menu:block pointer-events-auto">
+  
+  <div class="px-2">
+    
+  <a href="https://help.jumpapp.com" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="book_open">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
+</svg>
+    <span class="text-base">Help center</span>
+  </a>
+  <button type="button" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3 cursor-pointer" onclick="if(window.Intercom) Intercom('show')">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="chat_bubble_left_right">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
+</svg>
+    <span class="text-base">Chat with support</span>
+    <div class="ml-auto">
+      <div data-intercom-dot class="hidden w-2.5 h-2.5 rounded-full bg-danger-inverse"></div>
+    </div>
+  </button>
+  <a href="/feedback" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="plus">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+</svg>
+    <span class="text-base">Request a feature</span>
+  </a>
+  <a href="/getting-started" data-phx-link="redirect" data-phx-link-state="push" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="information_circle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+</svg>
+    <span class="text-base">Getting started</span>
+  </a>
+
+  </div>
+</div>
+  
+  
+</div>
+</div>
+  <div id="user-settings-menu" class="relative inline-block">
+  <div id="user-settings-menu-trigger" phx-click="[[&quot;toggle&quot;,{&quot;ins&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-out&quot;,&quot;duration-200&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;]],&quot;to&quot;:&quot;#user-settings-menu-content&quot;,&quot;outs&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-in&quot;,&quot;duration-150&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;]]}]]">
+    
+    <li class="text-secondary hover:bg-secondary hover:dark:bg-surface-modal-chalkboard rounded-lg cursor-pointer w-full">
+  
+
+<div class="p-1.5 cursor-pointer place-self-center group relative flex items-center rounded-lg p-1.5 w-full sidebar-closed:justify-center sidebar-open:justify-start hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed" aria-label="Profile &amp; settings">
+  
+    <div class="flex items-center justify-center sidebar-open:justify-start sidebar-open:gap-3 w-full">
+      
+      <div class="ph-no-capture flex items-center gap-3 sidebar-closed:justify-center sidebar-open:justify-start">
+        <jump-avatar size="tiny" name="qa automation" randomColor src="https://lh3.googleusercontent.com/a/ACg8ocJCYEYBw56cheUSsz_zFNoJxmsbF_pe7ouNdeHEzqZWqvtH5A=s96-c" rounded="md" class="flex-shrink-0"></jump-avatar>
+      </div>
+    
+      <span class="hidden sidebar-open:block text-base font-medium leading-none">
+        Profile &amp; settings
+      </span>
+    </div>
+    <span class="block sr-only">Profile &amp; settings</span>
+  
+</div>
+  <template id="tooltip-16b5c006" style="display: none;">
+  
+    Profile &amp; settings
+  
+</template>
+<span id="tooltip-16b5c006-hook" phx-hook="TippySiblingHook" data-tippy-template="tooltip-16b5c006" data-tippy-placement="right" data-tippy-theme="jump" data-tippy-delay="0" style="display: none;">
+</span>
+</li>
+  
+  </div>
+
+  <div id="user-settings-menu-content" class="z-[9999] hidden bg-surface-modal-paper border border-secondary rounded-lg shadow-dropdown !p-0" phx-hook="FloatingHook" popover="manual" data-reference-id="user-settings-menu-trigger" data-placement="right-end" data-strategy="fixed" data-offset="8" data-width-padding="0" data-x-offset="0" data-y-offset="0" phx-click-away="[[&quot;hide&quot;,{&quot;to&quot;:&quot;#user-settings-menu-content&quot;,&quot;transition&quot;:[[&quot;transition-all&quot;,&quot;transform&quot;,&quot;ease-in&quot;,&quot;duration-150&quot;],[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;scale-100&quot;],[&quot;opacity-0&quot;,&quot;translate-y-1&quot;,&quot;scale-95&quot;]]}]]">
+  
+    
+    <div class="flex flex-col gap-y-2 min-w-[320px] max-w-[400px] py-2">
+  <div class="font-semibold text-primary pl-5 pr-2 py-2 border-b border-secondary">
+    Profile & Settings
+  </div>
+  <div class="px-2">
+    <a href="/settings/user" data-phx-link="redirect" data-phx-link-state="push" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none">
+  <div class="flex items-center gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="user">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+</svg>
+    <div>
+      <div class="text-base text-primary">User settings</div>
+      <div class="text-sm text-secondary">Customize your profile, integrations, & automations</div>
+    </div>
+  </div>
+</a>
+    
+    <a href="/settings/compliance" data-phx-link="redirect" data-phx-link-state="push" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none">
+  <div class="flex items-center gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="shield_check">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+</svg>
+    <div>
+      <div class="text-base text-primary">Compliance</div>
+      <div class="text-sm text-secondary">Manage compliance & permissions for users</div>
+    </div>
+  </div>
+</a>
+    <a href="/settings/enterprise" data-phx-link="redirect" data-phx-link-state="push" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none">
+  <div class="flex items-center gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="cog_6_tooth">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+</svg>
+    <div>
+      <div class="text-base text-primary">Account settings</div>
+      <div class="text-sm text-secondary">Modify your account-level features</div>
+    </div>
+  </div>
+</a>
+
+    <a href="/logout" data-phx-link="redirect" data-phx-link-state="push" class="flex flex-row items-center gap-2 px-2 py-1.5 hover:bg-interactive-background-neutral-hover active:bg-interactive-background-neutral-pressed disabled:bg-interactive-background-neutral-disabled rounded-md [&amp;[disabled]]:opacity-50 [&amp;[disabled]]:pointer-events-none">
+      <div class="px-1">Log out</div>
+    </a>
+  </div>
+</div>
+  
+  
+</div>
+</div>
+</div>
+      </ul>
+    </div>
+  </nav>
+</div>
+</div>
+
+  <script>
+    setTimeout(function() {
+      posthog.identify(
+        'usr_dc39f56ce5df4c16178cd6ad',
+        { email: 'qa-automation@jumpapp.xyz', name: 'qa automation' }
+      );
+    }, 1000);
+  </script>
+  <script>
+    var APP_ID = 'ktn6373s'
+    window.intercomSettings = {
+      app_id: APP_ID,
+      user_id: 'usr_dc39f56ce5df4c16178cd6ad',
+      view_user: 'https://my.jumpapp.com/admin/users/usr_dc39f56ce5df4c16178cd6ad',
+      login_as: 'https://my.jumpapp.com/admin/login-as/usr_dc39f56ce5df4c16178cd6ad',
+      account_id: 'acct_e4754bf17cff7243e333046c',
+      view_account: 'https://my.jumpapp.com/admin/accounts/acct_e4754bf17cff7243e333046c',
+      view_bots: 'https://my.jumpapp.com/admin/call-bots?account_id=acct_e4754bf17cff7243e333046c',
+      view_top_ancestor: '',
+      top_ancestor_name: '',
+      name: 'qa automation',
+      email: 'qa-automation@jumpapp.xyz',
+      user_hash: '8293c47b10d55ff74f74aec4184af270045ec9e6214df33114826e8eb500fd5f',
+      hide_default_launcher: true,
+      company: {
+          company_id: 'acct_e4754bf17cff7243e333046c',
+          created_at: 1770099230,
+          name: 'Automation',
+          plan: ''
+      },
+      account_owner: 'true',
+      created_at: 1770099230,
+      page_title: '',
+      allowed_features: null,
+      capture_mode: 'audio_video',
+      storage_strategy: 'retain_nothing',
+      delete_after: 1,
+      parent: '',
+      user_products: ''
+    };
+  </script>
+  <script>
+    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/' + APP_ID;var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+  </script>
+
+  
+
+
+<script>
+  // Used by the live notetaker web recorder specifically
+  // Also may be used by other react-based components
+  window.jump = {
+    meetingDetailsV2Enabled: true,
+    current_user: {
+      id: 'usr_dc39f56ce5df4c16178cd6ad'
+    }
+  }
+</script>
+
+
+
+
+
+<button class="pc-button pc-button--clear pc-button--md !fixed !bottom-5 !right-5 !w-12 !h-12 !rounded-full !bg-info-inverse !shadow-lg !flex !items-center !justify-center !p-0 !min-w-0 hover:!brightness-110 !z-50" phx-click="[[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#intercom-migration-modal&quot;,&quot;event&quot;:&quot;show-dialog&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;backdrop:opacity-100&quot;],&quot;to&quot;:&quot;#intercom-migration-modal&quot;}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;backdrop:opacity-0&quot;],&quot;to&quot;:&quot;#intercom-migration-modal&quot;}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;opacity-0&quot;,&quot;translate-y-4&quot;,&quot;sm:translate-y-0&quot;,&quot;sm:scale-95&quot;],&quot;to&quot;:&quot;#intercom-migration-modal &gt; div &gt; div&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;sm:scale-100&quot;],&quot;to&quot;:&quot;#intercom-migration-modal &gt; div &gt; div&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;overflow-hidden&quot;],&quot;to&quot;:&quot;body&quot;}],[&quot;focus_first&quot;,{&quot;to&quot;:&quot;#intercom-migration-modal &gt; div &gt; div&quot;}]]" data-style="clear">
+  
+  
+
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 32" fill="none" class="shrink-0 w-6 h-6 text-primary-inverse" data-qa="intercom_chat">
+  <path d="M28,32 C28,32 23.2863266,30.1450667 19.4727818,28.6592 L3.43749107,28.6592 C1.53921989,28.6592 0,27.0272 0,25.0144 L0,3.6448 C0,1.632 1.53921989,0 3.43749107,0 L24.5615088,0 C26.45978,0 27.9989999,1.632 27.9989999,3.6448 L27.9989999,22.0490667 L28,22.0490667 L28,32 Z M23.8614088,20.0181333 C23.5309223,19.6105242 22.9540812,19.5633836 22.5692242,19.9125333 C22.5392199,19.9392 19.5537934,22.5941333 13.9989999,22.5941333 C8.51321617,22.5941333 5.48178311,19.9584 5.4277754,19.9104 C5.04295119,19.5629428 4.46760991,19.6105095 4.13759108,20.0170667 C3.97913051,20.2124916 3.9004494,20.4673395 3.91904357,20.7249415 C3.93763774,20.9825435 4.05196575,21.2215447 4.23660523,21.3888 C4.37862552,21.5168 7.77411059,24.5386667 13.9989999,24.5386667 C20.2248893,24.5386667 23.6203743,21.5168 23.7623946,21.3888 C23.9467342,21.2215726 24.0608642,20.9827905 24.0794539,20.7254507 C24.0980436,20.4681109 24.0195551,20.2135019 23.8614088,20.0181333 Z" fill="currentColor"></path>
+</svg>
+
+  
+</button>
+
+<div>
+  <dialog id="intercom-migration-modal" phx-mounted="[[&quot;ignore_attrs&quot;,{&quot;attrs&quot;:[&quot;open&quot;]}]]" phx-remove="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;backdrop:opacity-100&quot;],&quot;to&quot;:&quot;#intercom-migration-modal&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;backdrop:opacity-0&quot;],&quot;to&quot;:&quot;#intercom-migration-modal&quot;}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;sm:scale-100&quot;],&quot;to&quot;:&quot;#intercom-migration-modal &gt; div &gt; div&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;opacity-0&quot;,&quot;translate-y-4&quot;,&quot;sm:translate-y-0&quot;,&quot;sm:scale-95&quot;],&quot;to&quot;:&quot;#intercom-migration-modal &gt; div &gt; div&quot;}],[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#intercom-migration-modal&quot;,&quot;event&quot;:&quot;close-dialog&quot;}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;overflow-hidden&quot;],&quot;to&quot;:&quot;body&quot;}]]" phx-hook="EnterKeySubmitModal" data-cancel="[[&quot;exec&quot;,{&quot;attr&quot;:&quot;data-cancel-default&quot;}],[&quot;exec&quot;,{&quot;attr&quot;:&quot;phx-remove&quot;}]]" data-cancel-default="[[&quot;push&quot;,{&quot;value&quot;:{},&quot;event&quot;:&quot;close_modal&quot;}]]" aria-labelledby="pc-modal__header__text-intercom-migration-modal" aria-modal="true" data-qa="modal-hidden" class="backdrop:bg-modal-backdrop backdrop:opacity-0 backdrop:transition-opacity backdrop:duration-300 p-0 bg-transparent border-none shadow-none outline-none">
+  <div class="fixed inset-0 flex items-center justify-center px-4 my-4 transform sm:px-6 overflow-hidden modal__wrapper ">
+    <div class="w-full max-h-[90vh] bg-surface-modal-paper shadow-lg rounded-2xl flex flex-col opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all transform duration-300 [&amp;_*:focus-visible]:outline-none modal__box max-w-xl overflow-auto !bg-surface-content-concrete" phx-key="escape">
+      
+
+      <div class="shrink p-0 flex-1 modal__content overflow-y-auto">
+        
+    <div class="flex flex-col px-6 py-6">
+      <div class="relative -mx-6 -mt-6 mb-4 rounded-t-2xl px-6 pt-4 pb-5 overflow-hidden w-120%]">
+        <div class="absolute inset-0 bg-success-inverse opacity-20"></div>
+        <div class="relative flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" data-qa="star">
+  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd"/>
+</svg>
+          <span class="text-xs font-semibold uppercase tracking-wider text-success">
+            Support update
+          </span>
+        </div>
+        <h2 class="relative text-xl font-semibold text-primary">
+          Your support chat is moving to a new home
+        </h2>
+      </div>
+
+      <p class="text-secondary max-w-prose mb-4">
+        We're retiring the chat bubble in the bottom-right corner. Here's
+        what's changing and where to find us going forward.
+      </p>
+
+      <div class="w-full rounded-lg border border-secondary bg-surface-content-concrete p-2.5 flex items-start gap-2.5">
+  <div class="flex-shrink-0 w-8 h-8 rounded-full bg-info-inverse flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 32" fill="none" class="shrink-0 w-4 h-4 text-primary-inverse" data-qa="intercom_chat">
+  <path d="M28,32 C28,32 23.2863266,30.1450667 19.4727818,28.6592 L3.43749107,28.6592 C1.53921989,28.6592 0,27.0272 0,25.0144 L0,3.6448 C0,1.632 1.53921989,0 3.43749107,0 L24.5615088,0 C26.45978,0 27.9989999,1.632 27.9989999,3.6448 L27.9989999,22.0490667 L28,22.0490667 L28,32 Z M23.8614088,20.0181333 C23.5309223,19.6105242 22.9540812,19.5633836 22.5692242,19.9125333 C22.5392199,19.9392 19.5537934,22.5941333 13.9989999,22.5941333 C8.51321617,22.5941333 5.48178311,19.9584 5.4277754,19.9104 C5.04295119,19.5629428 4.46760991,19.6105095 4.13759108,20.0170667 C3.97913051,20.2124916 3.9004494,20.4673395 3.91904357,20.7249415 C3.93763774,20.9825435 4.05196575,21.2215447 4.23660523,21.3888 C4.37862552,21.5168 7.77411059,24.5386667 13.9989999,24.5386667 C20.2248893,24.5386667 23.6203743,21.5168 23.7623946,21.3888 C23.9467342,21.2215726 24.0608642,20.9827905 24.0794539,20.7254507 C24.0980436,20.4681109 24.0195551,20.2135019 23.8614088,20.0181333 Z" fill="currentColor"></path>
+</svg>
+  </div>
+  <div class="flex flex-col">
+    <div class="text-[10px] font-semibold uppercase tracking-wider text-secondary leading-tight">Going away</div>
+    <div class="text-base font-semibold text-primary leading-snug">Support bubble (bottom-right corner)</div>
+    <div class="text-sm text-secondary leading-snug">
+      The floating chat icon will no longer appear on every page.
+      It has been removed as a default element of the interface.
+    </div>
+  </div>
+</div>
+      <div class="my-2 flex items-center justify-center">
+  <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-4 h-4 icon-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="arrow_down">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"/>
+</svg>
+</div>
+      <div class="w-full rounded-lg border border-secondary bg-surface-content-concrete p-2.5 flex items-start gap-2.5">
+  <div class="flex-shrink-0 w-8 h-8 rounded-full bg-info-inverse flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 w-4 h-4 text-primary-inverse" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" stroke-width="1.5" data-qa="question_mark_circle">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
+</svg>
+  </div>
+  <div class="flex flex-col">
+    <div class="text-[10px] font-semibold uppercase tracking-wider text-secondary leading-tight">New location</div>
+    <div class="text-base font-semibold text-primary leading-snug">
+      Help tab → sidebar (bottom-left)
+    </div>
+    <div class="text-sm text-secondary leading-snug">
+      Click <span class="font-semibold">Help</span> in the left sidebar anytime to open the same chat
+      — plus the help center, feature requests, and getting started guides.
+    </div>
+  </div>
+</div>
+
+      <button class="pc-button pc-button--secondary pc-button--md mt-6 w-full pc-button--with-icon" phx-click="[[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;backdrop:opacity-100&quot;],&quot;to&quot;:&quot;#intercom-migration-modal&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;backdrop:opacity-0&quot;],&quot;to&quot;:&quot;#intercom-migration-modal&quot;}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;opacity-100&quot;,&quot;translate-y-0&quot;,&quot;sm:scale-100&quot;],&quot;to&quot;:&quot;#intercom-migration-modal &gt; div &gt; div&quot;}],[&quot;add_class&quot;,{&quot;names&quot;:[&quot;opacity-0&quot;,&quot;translate-y-4&quot;,&quot;sm:translate-y-0&quot;,&quot;sm:scale-95&quot;],&quot;to&quot;:&quot;#intercom-migration-modal &gt; div &gt; div&quot;}],[&quot;dispatch&quot;,{&quot;to&quot;:&quot;#intercom-migration-modal&quot;,&quot;event&quot;:&quot;close-dialog&quot;}],[&quot;remove_class&quot;,{&quot;names&quot;:[&quot;overflow-hidden&quot;],&quot;to&quot;:&quot;body&quot;}],[&quot;push&quot;,{&quot;target&quot;:4,&quot;event&quot;:&quot;acknowledge_intercom_migration&quot;}]]" data-style="secondary">
+  
+      <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 pc-button__spinner-icon--md" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true" data-qa="check">
+  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/>
+</svg>
+    
+
+  
+        Got it—support chat is moving to the Help tab
+      
+  
+</button>
+
+      <p class="mt-2 text-xs text-secondary text-center">
+        This message will not appear again
+      </p>
+    </div>
+  
+      </div>
+
+      
+    </div>
+  </div>
+</dialog>
+</div></div>
+
+      <!-- Google Tag Manager (noscript) -->
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58DGRH6V" height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+      </noscript>
+      <!-- End Google Tag Manager (noscript) -->
+
+    <div id="modal_wrapper" class="fixed inset-0 z-50 hidden">
+  <div class="fixed inset-0 bg-surface-modal-paper opacity-50"></div>
+  <dialog id="danger_dialog" class="no-overflow px-0 rounded-2xl py-0 relative z-50 bg-primary">
+    <form method="dialog">
+      <div class="grid gap-4 px-10 pt-10 pb-6">
+        <h1 class="text-2xl text-left">
+          Are you sure?
+        </h1>
+        <p class="text-secondary text-left" data-ref="body"></p>
+        <input type="text" id="confirm_input" name="confirm_input" data-ref="confirm-input" class="hidden mt-4 p-2 border border-primary rounded">
+      </div>
+      <div class="p-8 border-t flex gap-5 items-center justify-end">
+        <button class="pc-button pc-button--clear pc-button--md" type="submit" value="cancel" data-style="clear" data-ref="cancel">
+  
+  
+
+  
+          Cancel
+        
+  
+</button>
+        <button class="pc-button pc-button--danger pc-button--md test-class-delete" type="submit" value="confirm" data-style="danger" data-ref="confirm">
+  
+  
+
+  
+  
+</button>
+      </div>
+    </form>
+  </dialog>
+</div>
+    <script>
+      window.recaptchaSiteKey = "6Le7A7sqAAAAACOa_wZErTdWHtK75jL0K-CyZlOS";
+    </script>
+  </body>
+</html>
